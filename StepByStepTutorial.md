@@ -12,15 +12,15 @@ Repository Link : https://github.com/in28minutes/full-stack-with-angular-and-spr
 
 FInal App we'll build 
 
-![finalapp](images\finalapp.png)
+![finalapp](images/finalapp.png)
 
 Learning Steps
 
-<img src="images\LearningSteps.png" alt="LearningSteps" style="zoom:50%;" />
+<img src="images/LearningSteps.png" alt="LearningSteps" style="zoom:50%;" />
 
 AngularLearningTopics
 
-![AngularLearningTopics](images\AngularLearningTopics.png)
+![AngularLearningTopics](images/AngularLearningTopics.png)
 
 - Generated frontend project - ng new todo
 - 
