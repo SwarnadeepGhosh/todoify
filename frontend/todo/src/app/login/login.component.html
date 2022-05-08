@@ -1,6 +1,17 @@
-Username : <input type="text" name="username" [(ngModel)] = "username">
+<!-- Username : <input type="text" name="username" [(ngModel)] = "username">
 Password : <input type="password" name="password" [(ngModel)] = "password">
 
-<button (click)="handleLogin()">Login</button> <br>
+<button class="btn btn-success" (click)="handleLogin()">Login</button> <br> -->
 
-<small *ngIf="invalidLogin">Login Unsuccessful</small>
+<form>
+    <div class="form-group">
+      <label for="user">Username</label>
+      <input type="text" class="form-control" id="user" name="username" [(ngModel)] = "username">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" [(ngModel)] = "password">
+      </div>
+    <button type="submit" class="btn btn-primary" (click)="handleLogin()">Login</button>
+    <i *ngIf="invalidLogin" class="text-danger m-4">Login Unsuccessful</i>
+</form>
