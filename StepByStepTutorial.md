@@ -10,7 +10,11 @@ Repository Link : https://github.com/in28minutes/full-stack-with-angular-and-spr
 
 
 
-## Introduction
+## Frontend 
+
+
+
+### Introduction
 
 FInal App we'll build 
 
@@ -124,9 +128,9 @@ export class WelcomeComponent implements OnInit {
 
 
 
-## Todo List Design
+### Todo List Design
 
-##### List-Todos Component
+#### List-Todos Component
 
 ***app-routing.module.ts***
 
@@ -219,7 +223,7 @@ $ npm install jquery
 
 
 
-##### Header-Footer-Error Component
+#### Header-Footer-Error Component
 
 Created 3 components for Header, Footer and Error.
 
@@ -279,6 +283,9 @@ Created 3 components for Header, Footer and Error.
     width: 100%;
     height: 40px;
     background-color: #016f77;
+}
+.container{
+    padding: 8px;
 }
 ```
 
@@ -392,4 +399,129 @@ const routes: Routes = [
 
 
 
-## Frontend Authentication
+### Frontend Authentication
+
+Created a service hardcodedAuth for Hardcoded Authentication.
+
+`$ ng g service hardcodedAuth`
+
+##### Hardcoded Authentication Service
+
+***hardcoded-auth.service.ts*** -- We are hardcoding, checking if Logged In and removing  user on logout thorugh this service.
+
+```typescript
+export class HardcodedAuthService {
+  constructor() {}
+
+  authenticate(username: string, password: string) {
+    if (username === 'user' && password === 'pass') {
+      sessionStorage.setItem('authenticatedUser', username);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isUserLoggedIn() {
+    let user = sessionStorage.getItem('authenticatedUser');
+    return !(user === null);
+  }
+
+  logout() { let user = sessionStorage.removeItem('authenticatedUser'); }
+}
+```
+
+***login.component.ts***
+
+```typescript
+...
+handleLogin() {
+    // if (this.username === 'user' && this.password === 'pass') {
+    if (this.hardcodedAuthService.authenticate(this.username, this.password)) {
+...
+```
+
+
+
+##### Logout Component
+
+***logout.component.html*** 
+
+```html
+<h1> You have successfully logged out.</h1>
+<p>Thanks for using our application.</p>
+```
+
+***logout.component.ts***
+
+```typescript
+export class LogoutComponent implements OnInit {
+    constructor(private hardcodedAuthService: HardcodedAuthService) {}
+    ngOnInit(): void { this.hardcodedAuthService.logout(); }
+}
+```
+
+
+
+##### Allowing Nav items to Loggedin User
+
+***nav.component.html*** - configured the below lines.
+
+```html
+...
+<a *ngIf="hardcodedAuthService.isUserLoggedIn()"  class="nav-link" routerLink="/todos" routerLinkActive="active">Todos</a>
+<a *ngIf="!hardcodedAuthService.isUserLoggedIn()"  class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+<a *ngIf="hardcodedAuthService.isUserLoggedIn()"  class="nav-link" routerLink="/logout" routerLinkActive="active">Logout</a>
+...
+```
+
+***nav.component.ts***
+
+```typescript
+constructor(public hardcodedAuthService : HardcodedAuthService) { }
+```
+
+
+
+#### RouteGuard Service
+
+***route-guard.service.ts***
+
+```typescript
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { HardcodedAuthService } from './hardcoded-auth.service';
+
+@Injectable({ providedIn: 'root',})
+export class RouteGuardService implements CanActivate {
+  constructor(private hardcodedAuthService: HardcodedAuthService, private router: Router) {}
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (this.hardcodedAuthService.isUserLoggedIn()) { return true; }
+    else{
+      this.router.navigate(['/login']);
+      return false;
+    }
+  }
+}
+```
+
+***app-routing.module.ts***
+
+```typescript
+const routes: Routes = [
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'welcome/:name', component: WelcomeComponent, canActivate:[RouteGuardService] },
+  { path: 'todos', component: ListTodosComponent, canActivate:[RouteGuardService] },
+  { path: 'logout', component: LogoutComponent, canActivate:[RouteGuardService] },
+  { path: '**', component: ErrorComponent },
+];
+```
+
+
+
+
+
+## Backend

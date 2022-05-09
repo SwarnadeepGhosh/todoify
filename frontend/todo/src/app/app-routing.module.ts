@@ -3,13 +3,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { ErrorComponent } from './error/error.component';
 import { ListTodosComponent } from './list-todos/list-todos.component';
 import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import { RouteGuardService } from './services/route-guard.service';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // CanActivate, RouteGuardService
   { path: 'login', component: LoginComponent },
-  { path: 'welcome/:name', component: WelcomeComponent },
-  { path: 'todos', component: ListTodosComponent },
+  { path: 'welcome/:name', component: WelcomeComponent, canActivate:[RouteGuardService] },
+  { path: 'todos', component: ListTodosComponent, canActivate:[RouteGuardService] },
+  { path: 'logout', component: LogoutComponent, canActivate:[RouteGuardService] },
   { path: '**', component: ErrorComponent },
 ];
 
