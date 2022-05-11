@@ -525,3 +525,155 @@ const routes: Routes = [
 
 
 ## Backend
+
+### Basic Backend Setup
+
+Created a Spring Boot starter project TodoFullStack using below dependencies:
+
+```
+spring-boot-starter-web
+spring-boot-starter-data-jpa
+spring-boot-devtools
+postgresql
+```
+
+***backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\HelloWorldBean.java***
+
+```java
+package com.swarna.todoFullStack;
+public class HelloWorldBean {
+
+	public String message;
+	public HelloWorldBean(String message) {
+		this.message = message;
+	}
+    // Auto Generated Getter, Setter and ToString below ...
+}
+```
+
+***backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\HelloController.java*** - Created 3 API
+
+- `/hello` - returns String hardcoded rsponse
+- `/hello-bean` - returns  new HelloWorldBean object which has property "message"
+- `/hello/path-variable/{name}` - prints path variable also
+
+```java
+package com.swarna.todoFullStack;
+
+// Allowing localhost:4200 so that backend can be called by frontend server
+@CrossOrigin(origins = "http://localhost:4200") 
+@RestController
+public class HelloController {
+
+	@GetMapping("hello")
+	public String helloWorld() {
+		return "Hello world";
+	}
+
+	@GetMapping("hello-bean") // Bean is converting into JSON and send to view.
+	public HelloWorldBean helloWorldBean() {
+		// throw new RuntimeException("Some error occurred. Please contact helpdesk.");
+		return new HelloWorldBean("Hello World from HelloWorldBean backend"); 
+	}
+
+	@GetMapping("hello/path-variable/{name}")
+	public HelloWorldBean helloWorldBeanWithPathVariable(@PathVariable String name) {
+		return new HelloWorldBean(String.format("Hello World from Path Variable, Username : %s", name));
+	}
+}
+```
+
+
+
+### Connnecting Backend to Frontend
+
+***app.module.ts*** - importing HttpClientModule
+
+```typescript
+import { HttpClientModule } from '@angular/common/http'
+  imports: [ ...
+    HttpClientModule
+	...
+```
+
+***welcome-data.service.ts*** - This will fetch data from backend by REST-API call and share the response to angular components.
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+class HelloWorldBean {
+  constructor(public message: String) {}
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class WelcomeDataService {
+  constructor(private http: HttpClient) {}
+
+  executeHelloWorldBeanService() {
+    return this.http.get<HelloWorldBean>('http://localhost:8080/hello-bean');
+    // returns> Observable {source: Observable, operator: ƒ} and no call in network tab
+    // console.log('executeHelloWorldBean');
+  }
+
+  executeHelloWorldBeanServiceWithParameter(name: any) { // Fetching Path Variable from backend
+    return this.http.get<HelloWorldBean>(`http://localhost:8080/hello/path-variable/${name}`);
+  }
+}
+```
+
+
+
+***welcome.component.ts*** - Added 2 methods to handle success and error response, 1 method to fetch Welcome message without parameter and 1 method to fetch Welcome message with parameter
+
+```typescript
+export class WelcomeComponent implements OnInit {
+  welcomeMessageFromService: string | undefined;
+  ...
+  handleSuccessResponse(response: any) {
+    this.welcomeMessageFromService = response.message;
+    console.log(response.message);
+  }
+  handleErrorResponse(error: any) {
+    this.welcomeMessageFromService = error.error.message;
+  }
+
+  getWelcomeMessage() {
+    // console.log(this.welcomeDataService.executeHelloWorldBeanService());
+    this.welcomeDataService.executeHelloWorldBeanService().subscribe(
+      (response) => this.handleSuccessResponse(response),
+      (error) => this.handleErrorResponse(error)
+    );
+    // console.log('Last line of getWelcomeMessage'); // this will be print before response because observable is asynchronous call
+  }
+
+  getWelcomeMessageWithParameter() {
+    this.welcomeDataService
+      .executeHelloWorldBeanServiceWithParameter(this.name)
+      .subscribe(
+        (response) => this.handleSuccessResponse(response),
+        (error) => this.handleErrorResponse(error)
+      );
+  }
+}
+```
+
+***welcome.component.html*** - created a button that will fetch data from local backend server and show output message in html page.
+
+```typescript
+...
+<div class="container">
+  Click here to get welcome message from backend 
+  <button (click)="getWelcomeMessageWithParameter()" class="btn btn-primary">Get Welcome Message</button>
+</div>
+
+<div class="container" *ngIf="welcomeMessageFromService">
+  <h3>Welcome Message : </h3>
+  {{welcomeMessageFromService}}
+</div>
+```
+
+
+

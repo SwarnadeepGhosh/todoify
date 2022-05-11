@@ -6,4 +6,15 @@
   <li>Authentication using Spring Security</li>
 </ul>
 
-<p>You can manage all your todos <a routerLink="/todos"><b>here</b></a>.</p>
+<p>You can manage all your todos <a class="btn btn-success" routerLink="/todos">here</a></p>
+
+
+<div class="container">
+  Click here to get welcome message from backend 
+  <button (click)="getWelcomeMessageWithParameter()" class="btn btn-primary">Get Welcome Message</button>
+</div>
+
+<div class="container" *ngIf="welcomeMessageFromService">
+  <h3>Welcome Message : </h3>
+  {{welcomeMessageFromService}}
+</div>
