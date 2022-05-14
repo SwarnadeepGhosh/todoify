@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TodoDataService } from '../services/data/todo-data.service';
+import { TodoDataService } from '../../services/data/todo-data.service';
 
 export class Todo {
   constructor(

@@ -4,15 +4,15 @@ import { HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WelcomeComponent } from './welcome/welcome.component';
-import { LoginComponent } from './login/login.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 import { FormsModule } from '@angular/forms';
-import { ErrorComponent } from './error/error.component';
-import { ListTodosComponent } from './list-todos/list-todos.component';
-import { NavComponent } from './nav/nav.component';
-import { FooterComponent } from './footer/footer.component';
-import { LogoutComponent } from './logout/logout.component';
-import { TodoComponent } from './todo/todo.component';
+import { ErrorComponent } from './components/error/error.component';
+import { ListTodosComponent } from './components/list-todos/list-todos.component';
+import { NavComponent } from './components/nav/nav.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { TodoComponent } from './components/todo/todo.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
