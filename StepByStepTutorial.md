@@ -1,4 +1,4 @@
-
+​	
 
 # Todo Full Stack with Angular and Spring Boot
 
@@ -674,6 +674,437 @@ export class WelcomeComponent implements OnInit {
   {{welcomeMessageFromService}}
 </div>
 ```
+
+
+
+### CRUD Operation
+
+| Operation      | Request Method | URI                               |
+| -------------- | -------------- | --------------------------------- |
+| Read all todos | GET            | /users/{username}/todos           |
+| Create a todo  | POST           | /users/{username}/todos/          |
+| Update a todo  | PUT            | /users/{username}/todos/{todo_id} |
+| Delete a todo  | DELETE         | /users/{username}/todos/{todo_id} |
+
+
+
+**VsCode Lombok issue :** 
+
+Adding Lombok in ***pom.xml***
+
+```xml
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <optional>true</optional>
+</dependency>
+```
+
+If your project loads before installing this plugin `Lombok Annotations Support for VS Code`, you can run this command in vscode to reload the project.
+
+Press `Command + shift + P` and execute:
+
+```java
+Java: Clean Java language server workspace
+```
+
+
+
+##### Backend Model, Service, Controller
+
+***Todo.java***
+
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Todo {
+    private long id;
+    private String username;
+    private String description;
+    private Date targetDate;
+    private boolean isDone;
+}
+```
+
+***TodoHardCodedService.java***
+
+```java
+@Service
+public class TodoHardCodedService {
+	private static List<Todo> todos = new ArrayList<>();
+	private static int idCounter = 0;
+
+	static {
+		todos.add(new Todo(++idCounter, "user", "My first Todo", new Date(), false));
+		todos.add(new Todo(++idCounter, "user", "Spring Boot microservices", new Date(), true));
+		todos.add(new Todo(++idCounter, "user", "Angular", new Date(), false));
+	}
+}
+```
+
+***TodoController.java***
+
+```java
+@CrossOrigin(origins = "http://localhost:4200") // Allowing localhost:4200 so that backend can be called by frontend server
+@RestController
+public class TodoController {
+    @Autowired
+    private TodoHardCodedService todoService;
+}
+```
+
+
+
+##### ReadTodos Backend
+
+***TodoHardCodedService.java***
+
+```java
+public List<Todo> getAllTodos() {
+    return todos;
+}
+```
+
+***TodoController.java***
+
+```java
+@GetMapping("/users/{username}/todos")
+public List<Todo> getAllTodos(@PathVariable String username) {
+    return todoService.getAllTodos();
+    // returns default 200 OK with Todo List
+}
+```
+
+
+
+##### ReadTodos FrontEnd
+
+***todo-data.service.ts*** - to get data from backend
+
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class TodoDataService {
+  constructor(private http: HttpClient) { }
+  getAllTodos(username: any) {
+    return this.http.get<Todo[]>(`http://localhost:8080/users/${username}/todos`);
+  }
+}
+```
+
+***list-todos.component.ts*** - to serve data from data service to frontend
+
+```typescript
+export class ListTodosComponent implements OnInit {
+  message: string | undefined;
+  todos: Todo[] = [];
+  // [
+  //   new Todo(1, 'My first Todo', true, new Date()),
+  //   new Todo(1, 'Welcome to India', false, new Date()),
+  //   new Todo(1, 'Angular project', true, new Date()),
+  // ];
+
+  constructor(private todoService: TodoDataService) {}
+
+  ngOnInit(): void {
+    this.refreshTodos();
+  }
+    
+  refreshTodos(){
+    this.todoService.getAllTodos('user').subscribe((response) => {
+      // console.log(response);
+      this.todos = response;
+    });
+  }
+}
+
+```
+
+
+
+##### DeleteTodo Backend
+
+***TodoHardCodedService.java***
+
+```java
+public Todo findById(long id) {
+    for(Todo todo : todos){
+        if(todo.getId() == id) return todo;
+    }
+    return null;
+}
+public Todo deleteById(long id){
+    Todo todo = findById(id);
+
+    if(todo == null) return null;
+    if(todos.remove(todo)) return todo;
+    return null;
+}
+```
+
+***TodoController.java***
+
+```java
+@DeleteMapping("/users/{username}/todos/{id}")
+public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id) {
+    Todo todo = todoService.deleteById(id);
+    if (todo != null) {
+        return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.notFound().build();
+    // returns 204 no Content for successful deletion and returns 404 for not found
+}
+```
+
+
+
+##### DeleteTodo FrontEnd
+
+***todo-data.service.ts*** - to get data from backend
+
+```typescript
+deleteTodo(username: any, id: number) {
+    return this.http.delete(`http://localhost:8080/users/${username}/todos/${id}`);
+}
+```
+
+***list-todos.component.ts*** - to serve data from data service to frontend
+
+```typescript
+deleteTodo(id: number) {
+    console.log(`Todo Deleted ${id}`);
+    this.todoService.deleteTodo('user', id).subscribe((response) => {
+        console.log(response);
+        this.message = `Delete of Todo ${id} successful`;
+        this.refreshTodos();
+    });
+}
+```
+
+***list-todos.component.html***
+
+```html
+<h2>My Todo's</h2>
+
+<div class="alert alert-success" *ngIf="message">{{message}}</div>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Is Completed ?</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let todo of todos">
+        <td>{{ todo.description }}</td>
+        <td>{{ todo.targetDate | date }}</td>
+        <td>{{ todo.done }}</td>
+        <td><button (click)="deleteTodo(todo.id)" class="btn btn-danger">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+
+
+##### UpdateTodo Backend
+
+***TodoHardCodedService.java***
+
+```java
+public Todo getTodo(long id) { // This data will be populated in update frontend screen
+    return findById(id);
+}
+
+public Todo save(Todo todo) {
+    if (todo.getId() == -1 || todo.getId() == 0) { // Saving Todo if not exist
+        todo.setId(++idCounter);
+        todos.add(todo);
+    } else {
+        deleteById(todo.getId()); // Deleting and adding Todo if already exists.
+        todos.add(todo);
+    }
+    return todo;
+}
+```
+
+***TodoController.java***
+
+```java
+@PutMapping("/users/{username}/todos/{id}")
+public ResponseEntity<Todo> updateTodo(@PathVariable String username, @PathVariable long id,
+                                       @RequestBody Todo todo) {
+    Todo todoUpdated = todoService.save(todo);
+    return new ResponseEntity<Todo>(todo, HttpStatus.OK); 
+    // returns 200 OK status with updated Todo
+}
+```
+
+
+
+##### UpdateTodo FrontEnd
+
+We need **Todo Component** to **Update** / **Add** a new Todo in Todo List. (`ng generate component todo`)
+
+***app-routing.module.ts*** - to get data from backend
+
+```typescript
+{ path: 'todos/:id', component: TodoComponent, canActivate:[RouteGuardService] },
+```
+
+***todo-data.service.ts*** - to get data from backend
+
+```typescript
+getTodo(username: any, id: number) {
+    return this.http.get<Todo>(`http://localhost:8080/users/${username}/todos/${id}`);
+}
+
+updateTodo(username: any, id: number, todo: Todo) {
+    return this.http.put(`http://localhost:8080/users/${username}/todos/${id}`, todo);
+}
+```
+
+
+
+***list-todos.component.ts*** - to serve data from data service to frontend
+
+```typescript
+constructor(private todoService: TodoDataService, private router: Router) {}  
+updateTodo(id: number) {
+    // console.log(`Todo Updated- ${id}`);
+    this.router.navigate(['todos', id]);
+}
+```
+
+***list-todos.component.html***
+
+```html
+<th>Update</th>
+...
+<td><button (click)="updateTodo(todo.id)" class="btn btn-warning">Update</button></td>
+```
+
+
+
+***todo.component.ts*** - to Update / Add a Todo
+
+```typescript
+export class TodoComponent implements OnInit {
+  id: number = 0;
+  todo!: Todo;
+
+  constructor(private todoService:TodoDataService, private route:ActivatedRoute, private router:Router) {}
+
+  ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
+    this.todo = new Todo(this.id, '', false, new Date()); // Initialising todo to avoid undefined error in console.
+
+    if (this.id != -1) {
+      this.todoService.getTodo('user', this.id).subscribe((data) => (this.todo = data));
+    }
+  }
+
+  saveTodo() {
+    if(this.id === -1){
+      //Create todo
+      this.todoService.createTodo('user', this.todo).subscribe((data) => {
+          this.router.navigate(['todos']);
+        });
+    } else{
+      this.todoService.updateTodo('user', this.id, this.todo).subscribe((data) => {
+          this.router.navigate(['todos']);
+        });
+    }
+  }
+}
+```
+
+***todo.component.html***
+
+```html
+<h1>Update / Create Todo</h1>
+
+<div class="container">
+    <div class="alert alert-warning" *ngIf="todoForm.dirty && todoForm.invalid">Enter valid values</div>
+    <div class="alert alert-warning" *ngIf="todoForm.dirty && description.invalid">Enter atleast 4 characters in Description</div>
+    <div class="alert alert-warning" *ngIf="todoForm.dirty && targetDate.invalid">Enter valid Target Date</div>
+
+    <form (ngSubmit)="!todoForm.invalid && saveTodo()" #todoForm="ngForm">
+        <fieldset class="form-group">
+            <label for="description">Description</label>
+            <input type="text" [(ngModel)]="todo.description" #description="ngModel" name="description" class="form-control" required="required" minlength="4">
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="date">Target Date</label>
+            <input type="date" [ngModel]="todo.targetDate | date:'yyyy-MM-dd'" (ngModelChange)="todo.targetDate=$event" #targetDate="ngModel"
+            name="date" class="form-control" required="required">
+        </fieldset>
+    
+        <button class="btn btn-success" type="submit">Save</button>
+    </form>
+</div>
+```
+
+
+
+
+
+##### AddTodo Backend
+
+***TodoHardCodedService.java*** - No change -- `todoService.save(todo)` method is already added.
+
+***TodoController.java***
+
+```java
+@PostMapping("/users/{username}/todos")
+public ResponseEntity<Void> createTodo(@PathVariable String username, @RequestBody Todo todo) {
+    Todo createdTodo = todoService.save(todo);
+
+    // Creating a new URI for the new Todo and returning URL by appending id
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
+    System.out.println(uri);
+    return ResponseEntity.created(uri).build();
+    // returns Location = http://localhost:8080/users/user/todos/4 with response code 201 Created.
+}
+```
+
+
+
+##### AddTodo FrontEnd
+
+***todo-data.service.ts*** - to get data from backend
+
+```typescript
+createTodo(username: any, todo: Todo) {
+    return this.http.post(`http://localhost:8080/users/${username}/todos`, todo);
+}
+```
+
+***list-todos.component.ts*** - to serve data from data service to frontend
+
+```typescript
+addTodo(){
+    this.router.navigate(['todos', -1]);
+}
+```
+
+***list-todos.component.html***
+
+```html
+<div class="row">
+    <button (click)="addTodo()" class="btn btn-success">Add Todo</button>
+</div>
+```
+
+
 
 
 
