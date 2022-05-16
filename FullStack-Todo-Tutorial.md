@@ -16,17 +16,17 @@ Repository Link : https://github.com/in28minutes/full-stack-with-angular-and-spr
 
 ### Introduction
 
-FInal App we'll build 
+Final App we'll build 
 
-![finalapp](images/finalapp.png)
+<img src="images/finalapp.png" alt="finalapp" style="zoom: 67%;" />
 
 Learning Steps
 
-<img src="images/LearningSteps.png" alt="LearningSteps" style="zoom:50%;" />
+<img src="images/LearningSteps.png" alt="LearningSteps" style="zoom: 67%;" />
 
 AngularLearningTopics
 
-![AngularLearningTopics](images/AngularLearningTopics.png)
+<img src="images/AngularLearningTopics.png" alt="AngularLearningTopics" style="zoom:50%;" />
 
 - Generated frontend project - `ng new todo`
 
@@ -193,7 +193,7 @@ export class ListTodosComponent implements OnInit {
 
 Snapshot after TodoList component. (Before Bootstrap styling)
 
-![before-bootstrap](images\before-bootstrap.png)
+<img src="images\before-bootstrap.png" alt="before-bootstrap" style="zoom:67%;" />
 
 ##### Added Bootstrap
 
@@ -223,7 +223,7 @@ $ npm install jquery
 
 
 
-#### Header-Footer-Error Component
+### Header-Footer-Error Component
 
 Created 3 components for Header, Footer and Error.
 
@@ -483,7 +483,7 @@ constructor(public hardcodedAuthService : HardcodedAuthService) { }
 
 
 
-#### RouteGuard Service
+### RouteGuard Service
 
 ***route-guard.service.ts***
 
@@ -526,7 +526,7 @@ const routes: Routes = [
 
 ## Backend
 
-### Basic Backend Setup
+#### Basic Backend Setup
 
 Created a Spring Boot starter project TodoFullStack using below dependencies:
 
@@ -679,12 +679,13 @@ export class WelcomeComponent implements OnInit {
 
 ### CRUD Operation
 
-| Operation      | Request Method | URI                               |
-| -------------- | -------------- | --------------------------------- |
-| Read all todos | GET            | /users/{username}/todos           |
-| Create a todo  | POST           | /users/{username}/todos/          |
-| Update a todo  | PUT            | /users/{username}/todos/{todo_id} |
-| Delete a todo  | DELETE         | /users/{username}/todos/{todo_id} |
+| Operation      | Request Method | URI                               | Returns                                                      |
+| -------------- | -------------- | --------------------------------- | ------------------------------------------------------------ |
+| Read all todos | GET            | /users/{username}/todos           | 200 OK with Todo List                                        |
+| Read one todo  | GET            | /users/{username}/todos/{todo_id} | 200 OK with one Todo                                         |
+| Create a todo  | POST           | /users/{username}/todos/          | 201 CREATED                                                  |
+| Update a todo  | PUT            | /users/{username}/todos/{todo_id} | 200 OK with updated Todo                                     |
+| Delete a todo  | DELETE         | /users/{username}/todos/{todo_id} | 204 NO CONTENT => for Successful Deletion,<br/>404 NOT FOUND => for Todo Not Found |
 
 
 
@@ -1112,7 +1113,120 @@ addTodo(){
 
 ## Authentication with JWT
 
+#### Backend Hardcoded Auth
 
+***pom.xml***
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+
+***basicAuth/SecurityConfigurationBasicAuth.java*** - Configuring CSRF(Cross Site Request Format) with Spring Security
+
+```java
+package com.swarna.todoFullStack.basicAuth;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfigurationBasicAuth extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable() // disabling Cross Site Request Format
+                .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
+        // .formLogin();
+    }
+}
+```
+
+***application.properties***
+
+```properties
+spring.security.user.name=user
+spring.security.user.password=password
+```
+
+
+
+#### Frontend Hardcoded Auth
+
+***app.module.ts***
+
+```typescript
+import { HttpInterceptorBasicAuthService } from './services/http/http-interceptor-basic-auth.service';
+
+providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorBasicAuthService, multi: true},
+  ],
+```
+
+***welcome-data.service.ts***
+
+```typescript
+  executeHelloWorldBeanServiceWithParameter(name: any) {
+    let basicAuthHeaderString = this.createBasicAuthenticationHeader();
+    let headers = new HttpHeaders({
+      Authorization : basicAuthHeaderString
+    })
+
+    return this.http.get<HelloWorldBean>(`http://localhost:8080/hello/path-variable/${name}`, {headers});
+  }
+
+  createBasicAuthenticationHeader() {
+    let username = 'user';
+    let password = 'pass';
+    let basicAuthHeaderString = 'Basic ' + window.btoa(username + ':' + password);
+    return basicAuthHeaderString;
+  }
+
+  /* welcome/user:1 Access to XMLHttpRequest at 'http://localhost:8080/hello/path-variable/user' from origin 'http://localhost:4200' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.*/
+  // Access to XMLHttpRequest at 'http://localhost:8080/hello/path-variable/user' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+  // OPTION is being sent before GET request happen and it is failing
+}
+```
+
+
+
+But putting createBasicAuthenticationHeader() in each and individual incoming HTTP requests is a tedious task. So we will create a **HttpInterceptor** , which will intercept all incoming requests
+
+***app\services\http\http-interceptor-basic-auth.service.ts***
+
+```typescript
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class HttpInterceptorBasicAuthService implements HttpInterceptor{
+
+  // We will avoid adding Http headers in all Http requests. For eg, we will avoid below line. 
+  // Thatswhy we will use HttpInterceptor which will be added automatically to all the http requests in our application. 
+  // return this.http.get<HelloWorldBean>(`http://localhost:8080/hello/path-variable/${name}`, {headers});
+  constructor() { }
+
+  // We are intercpting incoming requests and adding Header entry, and returns the modified request back
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    let username = 'user';
+    let password = 'pass';
+    let basicAuthHeaderString = 'Basic ' + window.btoa(username + ':' + password);
+
+    request = request.clone({
+      setHeaders: {
+        Authorization : basicAuthHeaderString
+      }
+    })
+    return next.handle(request);
+  }
+}
+```
 
 
 
