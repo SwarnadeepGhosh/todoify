@@ -758,6 +758,8 @@ public class TodoController {
 
 
 
+### READ
+
 ##### ReadTodos Backend
 
 ***TodoHardCodedService.java***
@@ -825,6 +827,8 @@ export class ListTodosComponent implements OnInit {
 ```
 
 
+
+### DELETE
 
 ##### DeleteTodo Backend
 
@@ -915,6 +919,8 @@ deleteTodo(id: number) {
 ```
 
 
+
+### UPDATE
 
 ##### UpdateTodo Backend
 
@@ -1056,7 +1062,7 @@ export class TodoComponent implements OnInit {
 
 
 
-
+### CREATE
 
 ##### AddTodo Backend
 
@@ -1113,6 +1119,8 @@ addTodo(){
 
 ## Authentication with JWT
 
+### HardCoded Authentication
+
 #### Backend Hardcoded Auth
 
 ***pom.xml***
@@ -1156,7 +1164,7 @@ spring.security.user.password=password
 
 #### Frontend Hardcoded Auth
 
-***app.module.ts***
+***app.module.ts*** -- adding HTTP Interceptor as providers, so that it can intercept all incoming requests 
 
 ```typescript
 import { HttpInterceptorBasicAuthService } from './services/http/http-interceptor-basic-auth.service';
@@ -1229,4 +1237,202 @@ export class HttpInterceptorBasicAuthService implements HttpInterceptor{
 ```
 
 
+
+### Authentication using Backend Creds
+
+#### Steps
+
+Now we will create a Service which will return validated or not response to Angular frontend on login. This is the workflow to follow. 
+
+1. We will authenticate users in frontend using credentials using backend credentials from ***application.properties***
+
+2. For this target, we will generate ***BasicAuthController.java***, which will run at URI : `/basicauth` and it will return a ***AuthenticationBean***
+
+3. Creating a file ***app.constants.ts*** to store all the constants. Initially put below code into it.
+
+   ```typescript
+   export const API_URL = "http://localhost:8080";
+   ```
+
+4. Added a new service ***basic-authentication.service.ts*** to call `/basicauth` and return *AuthenticationBean* to check if user is authenticated or not. 
+5. Calling method `handleBasicAuthLogin()` of ***login.component.ts*** from ***login.component.html*** 
+6. Removed all hardcoded dependency from frontend of ***http-interceptor-basic-auth.service.ts*** - so that for every requests, it will intercept them all, take **basicAuthHeaderString** from Session Storage, set it as **Authorization** header and send the modified request back with headers added in it. So frontend server can take data from backend seamlessly.
+7. Removed hardcoded header addition in ***welcome-data.service.ts***, so that ***http-interceptor-basic-auth.service.ts*** can do the header-addition work automatically.
+
+ 
+
+***AuthenticationBean.java***
+
+```java
+package com.swarna.todoFullStack.basicAuth;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AuthenticationBean {
+	public String message;
+}
+```
+
+***BasicAuthController.java***
+
+```java
+package com.swarna.todoFullStack.basicAuth;
+@CrossOrigin(origins = "http://localhost:4200") 
+@RestController
+public class BasicAuthController {
+
+	@GetMapping("/basicauth") // Bean is converting into JSON and send to view.
+	public AuthenticationBean helloWorldBean() {
+		// throw new RuntimeException("Some error occurred. Please contact helpdesk.");
+		return new AuthenticationBean("You are authenticated"); 
+	}
+}
+```
+
+
+
+***basic-authentication.service.ts***
+
+```typescript
+export const TOKEN = 'token';
+export const AUTHENTICATED_USER = 'authenticatedUser';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BasicAuthenticationService {
+  constructor(private http : HttpClient) { }
+
+  executeAuthenticationService(username: string, password: string) {
+    let basicAuthHeaderString = 'Basic ' + window.btoa(username + ':' + password);
+    let headers = new HttpHeaders({
+      Authorization : basicAuthHeaderString
+    })
+    // pipe means if this is successful, then do this. i.e, map 
+    return this.http.get<AuthenticationBean>(`${API_URL}/basicauth`, {headers}).pipe(map(
+      data => {
+        sessionStorage.setItem(AUTHENTICATED_USER, username);
+        sessionStorage.setItem(TOKEN, basicAuthHeaderString);
+        return data;
+      }
+    ));
+  }
+
+  getAuthenticatedUser(){ return sessionStorage.getItem(AUTHENTICATED_USER); }
+
+  getAuthenticatedToken(){
+    if(this.getAuthenticatedUser())
+      return sessionStorage.getItem(TOKEN); 
+  }
+
+  isUserLoggedIn() {
+    let user = sessionStorage.getItem(AUTHENTICATED_USER);
+    return !(user === null);
+  }
+
+  logout() {
+    sessionStorage.removeItem(AUTHENTICATED_USER);
+    sessionStorage.removeItem(TOKEN);
+  }
+}
+
+export class AuthenticationBean{ constructor(public message : string){ } }
+```
+
+
+
+***login.component.ts***
+
+```typescript
+ constructor(
+    private router: Router,
+    private hardcodedAuthService: HardcodedAuthService,
+    private basicAuthService: BasicAuthenticationService
+  ) {}
+  ...
+  handleBasicAuthLogin() {
+    this.basicAuthService.executeAuthenticationService(this.username, this.password).subscribe(
+        (data) => {
+          console.log(data);
+          this.router.navigate(['welcome', this.username]);
+          this.invalidLogin = false;
+          // console.log("Login successful of User : " + this.username)
+        },
+        (error) => { 
+          console.log(error);
+          this.invalidLogin = true; 
+        }
+      );
+  }
+}
+```
+
+
+
+***login.component.html*** - Changed onclick method only.
+
+```html
+<!-- <button type="submit" class="btn btn-primary" (click)="handleLogin()">Login</button> -->
+<button type="submit" class="btn btn-primary" (click)="handleBasicAuthLogin()">Login</button>
+```
+
+
+
+***http-interceptor-basic-auth.service.ts***
+
+```typescript
+export class HttpInterceptorBasicAuthService implements HttpInterceptor{
+  constructor( private basicAuthenticationService: BasicAuthenticationService) { }
+
+  // We are intercpting incoming requests and adding Header entry, and returns the modified request back
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    
+      let basicAuthHeaderString = this.basicAuthenticationService.getAuthenticatedToken();
+    let username = this.basicAuthenticationService.getAuthenticatedUser();
+
+    if(basicAuthHeaderString && username){
+      request = request.clone({
+        setHeaders: {
+          Authorization : basicAuthHeaderString
+        }
+      })
+    }
+    return next.handle(request); // returning the request so that it can do it next job.
+  }
+}
+```
+
+
+
+***welcome-data.service.ts***
+
+```typescript
+export class WelcomeDataService {
+  constructor(private http: HttpClient) {}
+
+  executeHelloWorldBeanService() {
+    return this.http.get<HelloWorldBean>(`${API_URL}/hello-bean`);
+  }
+
+  executeHelloWorldBeanServiceWithParameter(name: any) {
+    return this.http.get<HelloWorldBean>(`${API_URL}/hello/path-variable/${name}`/*,{headers}*/);
+  }
+}
+```
+
+***todo-data.service.ts***
+
+```typescript
+Replace -> http://localhost:8080
+To this -> ${API_URL}
+```
+
+
+
+
+
+### Spring Security with JWT 
+
+Here we will connect Spring Security and Spring Boot with JWT Framework.
 

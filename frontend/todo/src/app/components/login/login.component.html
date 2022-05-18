@@ -12,6 +12,8 @@ Password : <input type="password" name="password" [(ngModel)] = "password">
         <label for="password">Password</label>
         <input type="password" class="form-control" id="password" name="password" [(ngModel)] = "password">
       </div>
-    <button type="submit" class="btn btn-primary" (click)="handleLogin()">Login</button>
+    <!-- <button type="submit" class="btn btn-primary" (click)="handleLogin()">Login</button> -->
+    <button type="submit" class="btn btn-primary" (click)="handleBasicAuthLogin()">Login</button>
+
     <i *ngIf="invalidLogin" class="text-danger m-4">Login Unsuccessful</i>
 </form>

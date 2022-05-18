@@ -8,7 +8,7 @@
     <meta name="generator" content="pandoc">
     <meta name="description" content="">
 
-    <title>FullStack Todo Tutorial</title>
+    <title>Todo FullStack</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -128,10 +128,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           to Frontend</a></li>
           <li><a href="#crud-operation" id="toc-crud-operation">CRUD
           Operation</a></li>
+          <li><a href="#read" id="toc-read">READ</a></li>
+          <li><a href="#delete" id="toc-delete">DELETE</a></li>
+          <li><a href="#update" id="toc-update">UPDATE</a></li>
+          <li><a href="#create" id="toc-create">CREATE</a></li>
           </ul></li>
           <li><a href="#authentication-with-jwt"
-          id="toc-authentication-with-jwt">Authentication with
+          id="toc-authentication-with-jwt">Authentication with JWT</a>
+          <ul>
+          <li><a href="#hardcoded-authentication"
+          id="toc-hardcoded-authentication">HardCoded
+          Authentication</a></li>
+          <li><a href="#authentication-using-backend-creds"
+          id="toc-authentication-using-backend-creds">Authentication
+          using Backend Creds</a></li>
+          <li><a href="#spring-security-with-jwt"
+          id="toc-spring-security-with-jwt">Spring Security with
           JWT</a></li>
+          </ul></li>
           </ul></li>
           </ul>
         </div>
@@ -745,6 +759,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb43-1"><a href=
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span></span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> TodoHardCodedService todoService<span class="op">;</span></span>
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="read">READ</h3>
 <h5 id="readtodos-backend">ReadTodos Backend</h5>
 <p><strong><em>TodoHardCodedService.java</em></strong></p>
 <div class="sourceCode" id="cb44"><pre
@@ -796,6 +811,7 @@ class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb47
 <span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
 <span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="delete">DELETE</h3>
 <h5 id="deletetodo-backend">DeleteTodo Backend</h5>
 <p><strong><em>TodoHardCodedService.java</em></strong></p>
 <div class="sourceCode" id="cb48"><pre
@@ -867,6 +883,7 @@ class="sourceCode html"><code class="sourceCode html"><span id="cb52-1"><a href=
 <span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/tbody&gt;</span></span>
 <span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/table&gt;</span></span>
 <span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+<h3 id="update">UPDATE</h3>
 <h5 id="updatetodo-backend">UpdateTodo Backend</h5>
 <p><strong><em>TodoHardCodedService.java</em></strong></p>
 <div class="sourceCode" id="cb53"><pre
@@ -978,6 +995,7 @@ class="sourceCode html"><code class="sourceCode html"><span id="cb60-1"><a href=
 <span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;button</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;btn btn-success&quot;</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>Save<span class="kw">&lt;/button&gt;</span></span>
 <span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/form&gt;</span></span>
 <span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+<h3 id="create">CREATE</h3>
 <h5 id="addtodo-backend">AddTodo Backend</h5>
 <p><strong><em>TodoHardCodedService.java</em></strong> - No change –
 <code>todoService.save(todo)</code> method is already added.</p>
@@ -1012,6 +1030,7 @@ class="sourceCode html"><code class="sourceCode html"><span id="cb64-1"><a href=
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;button</span> <span class="er">(click)</span><span class="ot">=</span><span class="st">&quot;addTodo()&quot;</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;btn btn-success&quot;</span><span class="kw">&gt;</span>Add Todo<span class="kw">&lt;/button&gt;</span></span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
 <h2 id="authentication-with-jwt">Authentication with JWT</h2>
+<h3 id="hardcoded-authentication">HardCoded Authentication</h3>
 <h4 id="backend-hardcoded-auth">Backend Hardcoded Auth</h4>
 <p><strong><em>pom.xml</em></strong></p>
 <div class="sourceCode" id="cb65"><pre
@@ -1042,7 +1061,8 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb66-1"><a href=
 <pre class="properties"><code>spring.security.user.name=user
 spring.security.user.password=password</code></pre>
 <h4 id="frontend-hardcoded-auth">Frontend Hardcoded Auth</h4>
-<p><strong><em>app.module.ts</em></strong></p>
+<p><strong><em>app.module.ts</em></strong> – adding HTTP Interceptor as
+providers, so that it can intercept all incoming requests</p>
 <div class="sourceCode" id="cb68"><pre
 class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { HttpInterceptorBasicAuthService } <span class="im">from</span> <span class="st">&#39;./services/http/http-interceptor-basic-auth.service&#39;</span><span class="op">;</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1105,6 +1125,180 @@ class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb70
 <span id="cb70-26"><a href="#cb70-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> next<span class="op">.</span><span class="fu">handle</span>(request)<span class="op">;</span></span>
 <span id="cb70-27"><a href="#cb70-27" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb70-28"><a href="#cb70-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="authentication-using-backend-creds">Authentication using Backend
+Creds</h3>
+<h4 id="steps">Steps</h4>
+<p>Now we will create a Service which will return validated or not
+response to Angular frontend on login. This is the workflow to
+follow.</p>
+<ol type="1">
+<li><p>We will authenticate users in frontend using credentials using
+backend credentials from
+<strong><em>application.properties</em></strong></p></li>
+<li><p>For this target, we will generate
+<strong><em>BasicAuthController.java</em></strong>, which will run at
+URI : <code>/basicauth</code> and it will return a
+<strong><em>AuthenticationBean</em></strong></p></li>
+<li><p>Creating a file <strong><em>app.constants.ts</em></strong> to
+store all the constants. Initially put below code into it.</p>
+<div class="sourceCode" id="cb71"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> API_URL <span class="op">=</span> <span class="st">&quot;http://localhost:8080&quot;</span><span class="op">;</span></span></code></pre></div></li>
+<li><p>Added a new service
+<strong><em>basic-authentication.service.ts</em></strong> to call
+<code>/basicauth</code> and return <em>AuthenticationBean</em> to check
+if user is authenticated or not.</p></li>
+<li><p>Calling method <code>handleBasicAuthLogin()</code> of
+<strong><em>login.component.ts</em></strong> from
+<strong><em>login.component.html</em></strong></p></li>
+<li><p>Removed all hardcoded dependency from frontend of
+<strong><em>http-interceptor-basic-auth.service.ts</em></strong> - so
+that for every requests, it will intercept them all, take
+<strong>basicAuthHeaderString</strong> from Session Storage, set it as
+<strong>Authorization</strong> header and send the modified request back
+with headers added in it. So frontend server can take data from backend
+seamlessly.</p></li>
+<li><p>Removed hardcoded header addition in
+<strong><em>welcome-data.service.ts</em></strong>, so that
+<strong><em>http-interceptor-basic-auth.service.ts</em></strong> can do
+the header-addition work automatically.</p></li>
+</ol>
+<p><strong><em>AuthenticationBean.java</em></strong></p>
+<div class="sourceCode" id="cb72"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">basicAuth</span><span class="op">;</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="at">@NoArgsConstructor</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="at">@AllArgsConstructor</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="at">@Builder</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> AuthenticationBean <span class="op">{</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> message<span class="op">;</span></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em>BasicAuthController.java</em></strong></p>
+<div class="sourceCode" id="cb73"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">basicAuth</span><span class="op">;</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="at">@CrossOrigin</span><span class="op">(</span>origins <span class="op">=</span> <span class="st">&quot;http://localhost:4200&quot;</span><span class="op">)</span> </span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="at">@RestController</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> BasicAuthController <span class="op">{</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GetMapping</span><span class="op">(</span><span class="st">&quot;/basicauth&quot;</span><span class="op">)</span> <span class="co">// Bean is converting into JSON and send to view.</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> AuthenticationBean <span class="fu">helloWorldBean</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">// throw new RuntimeException(&quot;Some error occurred. Please contact helpdesk.&quot;);</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">new</span> <span class="fu">AuthenticationBean</span><span class="op">(</span><span class="st">&quot;You are authenticated&quot;</span><span class="op">);</span> </span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em>basic-authentication.service.ts</em></strong></p>
+<div class="sourceCode" id="cb74"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> TOKEN <span class="op">=</span> <span class="st">&#39;token&#39;</span><span class="op">;</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> AUTHENTICATED_USER <span class="op">=</span> <span class="st">&#39;authenticatedUser&#39;</span><span class="op">;</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>@<span class="fu">Injectable</span>({</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>  providedIn<span class="op">:</span> <span class="st">&#39;root&#39;</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> BasicAuthenticationService {</span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constructor</span>(<span class="kw">private</span> http <span class="op">:</span> HttpClient) { }</span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">executeAuthenticationService</span>(username<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> password<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> basicAuthHeaderString <span class="op">=</span> <span class="st">&#39;Basic &#39;</span> <span class="op">+</span> <span class="bu">window</span><span class="op">.</span><span class="fu">btoa</span>(username <span class="op">+</span> <span class="st">&#39;:&#39;</span> <span class="op">+</span> password)<span class="op">;</span></span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> headers <span class="op">=</span> <span class="kw">new</span> <span class="fu">HttpHeaders</span>({</span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>      Authorization <span class="op">:</span> basicAuthHeaderString</span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// pipe means if this is successful, then do this. i.e, map </span></span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">http</span><span class="op">.</span><span class="fu">get</span><span class="op">&lt;</span>AuthenticationBean<span class="op">&gt;</span>(<span class="vs">`</span><span class="sc">${</span>API_URL<span class="sc">}</span><span class="vs">/basicauth`</span><span class="op">,</span> {headers})<span class="op">.</span><span class="fu">pipe</span>(<span class="fu">map</span>(</span>
+<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a>      data <span class="kw">=&gt;</span> {</span>
+<span id="cb74-18"><a href="#cb74-18" aria-hidden="true" tabindex="-1"></a>        sessionStorage<span class="op">.</span><span class="fu">setItem</span>(AUTHENTICATED_USER<span class="op">,</span> username)<span class="op">;</span></span>
+<span id="cb74-19"><a href="#cb74-19" aria-hidden="true" tabindex="-1"></a>        sessionStorage<span class="op">.</span><span class="fu">setItem</span>(TOKEN<span class="op">,</span> basicAuthHeaderString)<span class="op">;</span></span>
+<span id="cb74-20"><a href="#cb74-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> data<span class="op">;</span></span>
+<span id="cb74-21"><a href="#cb74-21" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb74-22"><a href="#cb74-22" aria-hidden="true" tabindex="-1"></a>    ))<span class="op">;</span></span>
+<span id="cb74-23"><a href="#cb74-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb74-24"><a href="#cb74-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-25"><a href="#cb74-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getAuthenticatedUser</span>(){ <span class="cf">return</span> sessionStorage<span class="op">.</span><span class="fu">getItem</span>(AUTHENTICATED_USER)<span class="op">;</span> }</span>
+<span id="cb74-26"><a href="#cb74-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-27"><a href="#cb74-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getAuthenticatedToken</span>(){</span>
+<span id="cb74-28"><a href="#cb74-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="kw">this</span><span class="op">.</span><span class="fu">getAuthenticatedUser</span>())</span>
+<span id="cb74-29"><a href="#cb74-29" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> sessionStorage<span class="op">.</span><span class="fu">getItem</span>(TOKEN)<span class="op">;</span> </span>
+<span id="cb74-30"><a href="#cb74-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb74-31"><a href="#cb74-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-32"><a href="#cb74-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">isUserLoggedIn</span>() {</span>
+<span id="cb74-33"><a href="#cb74-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> user <span class="op">=</span> sessionStorage<span class="op">.</span><span class="fu">getItem</span>(AUTHENTICATED_USER)<span class="op">;</span></span>
+<span id="cb74-34"><a href="#cb74-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">!</span>(user <span class="op">===</span> <span class="kw">null</span>)<span class="op">;</span></span>
+<span id="cb74-35"><a href="#cb74-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb74-36"><a href="#cb74-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-37"><a href="#cb74-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logout</span>() {</span>
+<span id="cb74-38"><a href="#cb74-38" aria-hidden="true" tabindex="-1"></a>    sessionStorage<span class="op">.</span><span class="fu">removeItem</span>(AUTHENTICATED_USER)<span class="op">;</span></span>
+<span id="cb74-39"><a href="#cb74-39" aria-hidden="true" tabindex="-1"></a>    sessionStorage<span class="op">.</span><span class="fu">removeItem</span>(TOKEN)<span class="op">;</span></span>
+<span id="cb74-40"><a href="#cb74-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb74-41"><a href="#cb74-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb74-42"><a href="#cb74-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-43"><a href="#cb74-43" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> AuthenticationBean{ <span class="kw">constructor</span>(<span class="kw">public</span> message <span class="op">:</span> <span class="dt">string</span>){ } }</span></code></pre></div>
+<p><strong><em>login.component.ts</em></strong></p>
+<div class="sourceCode" id="cb75"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a> <span class="kw">constructor</span>(</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> router<span class="op">:</span> Router<span class="op">,</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> hardcodedAuthService<span class="op">:</span> HardcodedAuthService<span class="op">,</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> basicAuthService<span class="op">:</span> BasicAuthenticationService</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  ) {}</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">...</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">handleBasicAuthLogin</span>() {</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">basicAuthService</span><span class="op">.</span><span class="fu">executeAuthenticationService</span>(<span class="kw">this</span><span class="op">.</span><span class="at">username</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">password</span>)<span class="op">.</span><span class="fu">subscribe</span>(</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>        (data) <span class="kw">=&gt;</span> {</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>          <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(data)<span class="op">;</span></span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>          <span class="kw">this</span><span class="op">.</span><span class="at">router</span><span class="op">.</span><span class="fu">navigate</span>([<span class="st">&#39;welcome&#39;</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">username</span>])<span class="op">;</span></span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>          <span class="kw">this</span><span class="op">.</span><span class="at">invalidLogin</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>          <span class="co">// console.log(&quot;Login successful of User : &quot; + this.username)</span></span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>        (error) <span class="kw">=&gt;</span> { </span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a>          <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(error)<span class="op">;</span></span>
+<span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a>          <span class="kw">this</span><span class="op">.</span><span class="at">invalidLogin</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span> </span>
+<span id="cb75-18"><a href="#cb75-18" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb75-19"><a href="#cb75-19" aria-hidden="true" tabindex="-1"></a>      )<span class="op">;</span></span>
+<span id="cb75-20"><a href="#cb75-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb75-21"><a href="#cb75-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong><em>login.component.html</em></strong> - Changed onclick
+method only.</p>
+<div class="sourceCode" id="cb76"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot; (click)=&quot;handleLogin()&quot;&gt;Login&lt;/button&gt; --&gt;</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;btn btn-primary&quot;</span> <span class="er">(click)</span><span class="ot">=</span><span class="st">&quot;handleBasicAuthLogin()&quot;</span><span class="kw">&gt;</span>Login<span class="kw">&lt;/button&gt;</span></span></code></pre></div>
+<p><strong><em>http-interceptor-basic-auth.service.ts</em></strong></p>
+<div class="sourceCode" id="cb77"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> HttpInterceptorBasicAuthService <span class="kw">implements</span> HttpInterceptor{</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constructor</span>( <span class="kw">private</span> basicAuthenticationService<span class="op">:</span> BasicAuthenticationService) { }</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// We are intercpting incoming requests and adding Header entry, and returns the modified request back</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intercept</span>(request<span class="op">:</span> HttpRequest<span class="op">&lt;</span><span class="dt">any</span><span class="op">&gt;,</span> next<span class="op">:</span> HttpHandler)<span class="op">:</span> Observable<span class="op">&lt;</span>HttpEvent<span class="op">&lt;</span><span class="dt">any</span><span class="op">&gt;&gt;</span> {</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> basicAuthHeaderString <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">basicAuthenticationService</span><span class="op">.</span><span class="fu">getAuthenticatedToken</span>()<span class="op">;</span></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> username <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">basicAuthenticationService</span><span class="op">.</span><span class="fu">getAuthenticatedUser</span>()<span class="op">;</span></span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(basicAuthHeaderString <span class="op">&amp;&amp;</span> username){</span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a>      request <span class="op">=</span> request<span class="op">.</span><span class="fu">clone</span>({</span>
+<span id="cb77-12"><a href="#cb77-12" aria-hidden="true" tabindex="-1"></a>        setHeaders<span class="op">:</span> {</span>
+<span id="cb77-13"><a href="#cb77-13" aria-hidden="true" tabindex="-1"></a>          Authorization <span class="op">:</span> basicAuthHeaderString</span>
+<span id="cb77-14"><a href="#cb77-14" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb77-15"><a href="#cb77-15" aria-hidden="true" tabindex="-1"></a>      })</span>
+<span id="cb77-16"><a href="#cb77-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb77-17"><a href="#cb77-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> next<span class="op">.</span><span class="fu">handle</span>(request)<span class="op">;</span> <span class="co">// returning the request so that it can do it next job.</span></span>
+<span id="cb77-18"><a href="#cb77-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb77-19"><a href="#cb77-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong><em>welcome-data.service.ts</em></strong></p>
+<div class="sourceCode" id="cb78"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> WelcomeDataService {</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constructor</span>(<span class="kw">private</span> http<span class="op">:</span> HttpClient) {}</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">executeHelloWorldBeanService</span>() {</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">http</span><span class="op">.</span><span class="fu">get</span><span class="op">&lt;</span>HelloWorldBean<span class="op">&gt;</span>(<span class="vs">`</span><span class="sc">${</span>API_URL<span class="sc">}</span><span class="vs">/hello-bean`</span>)<span class="op">;</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">executeHelloWorldBeanServiceWithParameter</span>(name<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">http</span><span class="op">.</span><span class="fu">get</span><span class="op">&lt;</span>HelloWorldBean<span class="op">&gt;</span>(<span class="vs">`</span><span class="sc">${</span>API_URL<span class="sc">}</span><span class="vs">/hello/path-variable/</span><span class="sc">${</span>name<span class="sc">}</span><span class="vs">`</span><span class="co">/*,{headers}*/</span>)<span class="op">;</span></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong><em>todo-data.service.ts</em></strong></p>
+<div class="sourceCode" id="cb79"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>Replace <span class="op">-&gt;</span> http<span class="op">:</span><span class="co">//localhost:8080</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>To <span class="kw">this</span> <span class="op">-&gt;</span> ${API_URL}</span></code></pre></div>
+<h3 id="spring-security-with-jwt">Spring Security with JWT</h3>
+<p>Here we will connect Spring Security and Spring Boot with JWT
+Framework.</p>
         </div>
       </div>
     </div>
