@@ -1507,7 +1507,7 @@ Here we will connect Spring Security and Spring Boot with JWT Framework.
 
 **`jwt.resource` package**
 
-***todoFullStack\jwt\resource\JwtAuthenticationRestController.java***
+***`todoFullStack\jwt\resource\JwtAuthenticationRestController.java`***
 
 ```java
 package com.swarna.todoFullStack.jwt.resource;
@@ -1598,7 +1598,7 @@ public class JwtAuthenticationRestController {
 }
 ```
 
-***todoFullStack\jwt\resource\JwtTokenRequest.java***
+***`todoFullStack\jwt\resource\JwtTokenRequest.java`***
 
 ```java
 @Data
@@ -1612,7 +1612,7 @@ public class JwtTokenRequest implements Serializable {
 }
 ```
 
-***todoFullStack\jwt\resource\JwtTokenResponse.java***
+**`todoFullStack\jwt\resource\JwtTokenResponse.java`**
 
 ```java
 @Data
@@ -1625,7 +1625,7 @@ public class JwtTokenResponse implements Serializable {
 }
 ```
 
-***todoFullStack\jwt\resource\AuthenticationException.java***
+**`todoFullStack\jwt\resource\AuthenticationException.java`**
 
 ```java
 package com.swarna.todoFullStack.jwt.resource;
@@ -1640,7 +1640,7 @@ public class AuthenticationException extends RuntimeException {
 
 **`jwt` package**
 
-***todoFullStack\jwt\JwtTokenUtil.java***
+**`todoFullStack\jwt\JwtTokenUtil.java`**
 
 ```java
 package com.swarna.todoFullStack.jwt;
@@ -1746,7 +1746,7 @@ public class JwtTokenUtil implements Serializable {
 }
 ```
 
-***todoFullStack\jwt\JwtInMemoryUserDetailsService.java***
+***`todoFullStack\jwt\JwtInMemoryUserDetailsService.java`***
 
 ```java
 package com.swarna.todoFullStack.jwt;
@@ -1782,7 +1782,7 @@ public class JwtInMemoryUserDetailsService implements UserDetailsService {
 
 ```
 
-***todoFullStack\jwt\JwtTokenAuthorizationOncePerRequestFilter.java***
+***`todoFullStack\jwt\JwtTokenAuthorizationOncePerRequestFilter.java`***
 
 ```java
 package com.swarna.todoFullStack.jwt;
@@ -1858,7 +1858,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 }
 ```
 
-***todoFullStack\jwt\JwtUnAuthorizedResponseAuthenticationEntryPoint.java***
+***`todoFullStack\jwt\JwtUnAuthorizedResponseAuthenticationEntryPoint.java`***
 
 ```java
 package com.swarna.todoFullStack.jwt;
@@ -1885,7 +1885,7 @@ public class JwtUnAuthorizedResponseAuthenticationEntryPoint implements Authenti
 }
 ```
 
-***todoFullStack\jwt\JwtUserDetails.java***
+***`todoFullStack\jwt\JwtUserDetails.java`***
 
 ```java
 package com.swarna.todoFullStack.jwt;
@@ -1964,7 +1964,7 @@ public class JwtUserDetails implements UserDetails {
 }
 ```
 
-***todoFullStack\jwt\JWTWebSecurityConfig.java***
+***`todoFullStack\jwt\JWTWebSecurityConfig.java`***
 
 ```java
 package com.swarna.todoFullStack.jwt;
@@ -2043,7 +2043,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-#### Endpoints
+### Endpoints
 
 ```sh
 # JWT generate Token 
@@ -2064,6 +2064,180 @@ curl --location --request GET 'http://localhost:8080/refresh' \
 curl --location --request GET 'http://localhost:8080/users/user/todos' \
 --header 'Origin: http://localhost:4200' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjUzNTkxMDcyLCJpYXQiOjE2NTI5ODYyNzJ9.5HPfVvVQiY6OVFfw0OevJ2kqRI4weLtvegUB7d066lKcAY1pCndY6iyAkx60sc5kwtgHKnq43z8gQJzBEwduxA'
+```
+
+
+
+
+
+## Using Database
+
+To connect database with our fullstack application , we need to configure `application.properties`, Model , Repository, Service and Controller.
+
+
+
+***application.properties***
+
+```properties
+#logging.level.org.springframework=debug
+logging.level.org.springframework = info
+
+# Spring Security Properties
+spring.security.user.name=user
+spring.security.user.password=dummy
+crossorigins.origin.url=http://localhost:4200
+
+# JWT properties
+jwt.signing.key.secret=mySecret
+jwt.get.token.uri=/authenticate
+jwt.refresh.token.uri=/refresh
+jwt.http.request.header=Authorization
+jwt.token.expiration.in.seconds=604800
+
+############### JPA config ###############
+#spring.h2.console.enabled=true
+#update means directly change in db while I run application
+spring.jpa.hibernate.ddl-auto=update
+# spring.jpa.hibernate.ddl-auto=create
+spring.jpa.show-sql=true
+# spring.jpa.defer-datasource-initialization=true
+spring.sql.init.mode=always
+#spring.datasource.initialization-mode=always #--> Or for Spring Boot before 2.5:
+
+############### Connecting to Postgres Database ###############
+#spring.datasource.url=jdbc:postgresql://host:port/database
+spring.datasource.url=jdbc:postgresql://free-tier12.aws-ap-south-1.cockroachlabs.cloud:26257/swarna-db-200.defaultdb
+spring.datasource.username=swarnadeep
+spring.datasource.password=XXXXXXXXXX
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+#spring.jooq.sql-dialect=postgres
+```
+
+
+
+***`backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\todo\Todo.java`***
+
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name="TODO_FULLSTACK", schema = "public")
+public class Todo {
+
+    @Id
+    @SequenceGenerator(name = "todo_seq",sequenceName = "todo_seq",allocationSize = 1, schema = "public")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "todo_seq")
+    private Long id;
+
+    private String username;
+    private String description;
+    private Date targetDate;
+    private boolean isDone;
+}
+```
+
+***`backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\TodoRepository.java`***
+
+```java
+public interface TodoRepository extends CrudRepository<Todo, Long>{
+    public List<Todo> findByUsername(String username);
+}
+```
+
+***`backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\todo\TodoService.java`***
+
+```java
+@Service
+public class TodoService {
+	
+	@Autowired
+	private TodoRepository todoRepository;
+    
+	public List<Todo> getAllTodos(String username) {
+		return todoRepository.findByUsername(username);
+		// todoRepository.findAll().forEach(t -> todos.add(t));;
+		// return todos;
+	}
+
+	public Optional<Todo> getTodo(long id) {
+		return todoRepository.findById(id);
+	}
+
+	public Todo save(Todo todo, String username) {
+		todo.setUsername(username);
+        Todo savedTodo = todoRepository.save(todo);
+		return savedTodo;
+	}
+
+	public Optional<Todo> deleteById(long id) {
+		Optional<Todo> todo = todoRepository.findById(id);
+        todoRepository.deleteById(id);
+		return todo;
+	}
+}
+```
+
+***`backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\todo\TodoController.java`***
+
+```java
+@CrossOrigin(origins = "${crossorigins.origin.url}")
+@RestController
+public class TodoController {
+
+    @Autowired
+    private TodoService todoService;
+
+    @GetMapping("/users/{username}/todos")
+    public List<Todo> getAllTodos(@PathVariable String username) {
+        return todoService.getAllTodos(username);
+    }
+
+    @GetMapping("/users/{username}/todos/{id}")
+    public Optional<Todo> getTodo(@PathVariable String username, @PathVariable long id) {
+        return todoService.getTodo(id);
+    }
+
+    @DeleteMapping("/users/{username}/todos/{id}")
+    public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id) {
+        Optional<Todo> todo = todoService.deleteById(id);
+        if (todo != null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/users/{username}/todos/{id}")
+    public ResponseEntity<Todo> updateTodo(@PathVariable String username, @PathVariable long id, @RequestBody Todo todo) {
+        Todo todoUpdated = todoService.save(todo, username);
+        return new ResponseEntity<Todo>(todoUpdated, HttpStatus.OK); 
+    }
+
+    @PostMapping("/users/{username}/todos")
+    public ResponseEntity<Void> createTodo(@PathVariable String username, @RequestBody Todo todo) {
+        Todo createdTodo = todoService.save(todo, username);
+
+        // Creating a new URI for the new Todo and returning URL by appending id
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
+        System.out.println(uri);
+        return ResponseEntity.created(uri).build();
+    }
+}
+```
+
+***`backend\TodoFullStack\src\main\resources\data.sql`*** - To save some initial data in database.
+
+```postgresql
+INSERT INTO public.TODO_FULLSTACK (id, username, description, target_date, is_done) 
+VALUES (nextval('public.todo_seq'), 'user', 'My first Todo', CURRENT_TIMESTAMP ,true);
+
+INSERT INTO public.TODO_FULLSTACK (id, username, description, target_date, is_done) 
+VALUES (nextval('public.todo_seq'), 'user', 'Spring Boot microservices', CURRENT_TIMESTAMP ,false);
+
+INSERT INTO public.TODO_FULLSTACK (id, username, description, target_date, is_done) 
+VALUES (nextval('public.todo_seq'), 'user', 'Angular', CURRENT_TIMESTAMP ,true);
 ```
 
 

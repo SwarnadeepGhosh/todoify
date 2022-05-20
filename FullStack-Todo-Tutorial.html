@@ -145,7 +145,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <li><a href="#spring-security-with-jwt"
           id="toc-spring-security-with-jwt">Spring Security with
           JWT</a></li>
+          <li><a href="#endpoints" id="toc-endpoints">Endpoints</a></li>
           </ul></li>
+          <li><a href="#using-database" id="toc-using-database">Using
+          Database</a></li>
           </ul></li>
           </ul>
         </div>
@@ -1357,7 +1360,7 @@ class="sourceCode xml"><code class="sourceCode xml"><span id="cb83-1"><a href="#
 </ul></li>
 </ul>
 <p><strong><code>jwt.resource</code> package</strong></p>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><em><code>todoFullStack\jwt\resource\JwtAuthenticationRestController.java</code></em></strong></p>
 <div class="sourceCode" id="cb84"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">jwt</span><span class="op">.</span><span class="im">resource</span><span class="op">;</span></span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1445,7 +1448,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb84-1"><a href=
 <span id="cb84-84"><a href="#cb84-84" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
 <span id="cb84-85"><a href="#cb84-85" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb84-86"><a href="#cb84-86" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><em><code>todoFullStack\jwt\resource\JwtTokenRequest.java</code></em></strong></p>
 <div class="sourceCode" id="cb85"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="at">@NoArgsConstructor</span></span>
@@ -1456,7 +1459,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb85-1"><a href=
 <span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> username<span class="op">;</span></span>
 <span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> password<span class="op">;</span></span>
 <span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><code>todoFullStack\jwt\resource\JwtTokenResponse.java</code></strong></p>
 <div class="sourceCode" id="cb86"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="at">@AllArgsConstructor</span></span>
@@ -1466,7 +1469,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb86-1"><a href=
 <span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">long</span> serialVersionUID <span class="op">=</span> <span class="dv">8317676219297719109L</span><span class="op">;</span></span>
 <span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="bu">String</span> token<span class="op">;</span></span>
 <span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><code>todoFullStack\jwt\resource\AuthenticationException.java</code></strong></p>
 <div class="sourceCode" id="cb87"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">jwt</span><span class="op">.</span><span class="im">resource</span><span class="op">;</span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">AuthenticationException</span> <span class="kw">extends</span> <span class="bu">RuntimeException</span> <span class="op">{</span></span>
@@ -1475,7 +1478,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb87-1"><a href=
 <span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p><strong><code>jwt</code> package</strong></p>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><code>todoFullStack\jwt\JwtTokenUtil.java</code></strong></p>
 <div class="sourceCode" id="cb88"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">jwt</span><span class="op">;</span></span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1578,7 +1581,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb88-1"><a href=
 <span id="cb88-99"><a href="#cb88-99" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Date</span><span class="op">(</span>createdDate<span class="op">.</span><span class="fu">getTime</span><span class="op">()</span> <span class="op">+</span> expiration <span class="op">*</span> <span class="dv">1000</span><span class="op">);</span></span>
 <span id="cb88-100"><a href="#cb88-100" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb88-101"><a href="#cb88-101" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><em><code>todoFullStack\jwt\JwtInMemoryUserDetailsService.java</code></em></strong></p>
 <div class="sourceCode" id="cb89"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">jwt</span><span class="op">;</span></span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">ArrayList</span><span class="op">;</span></span>
@@ -1610,7 +1613,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb89-1"><a href=
 <span id="cb89-28"><a href="#cb89-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> findFirst<span class="op">.</span><span class="fu">get</span><span class="op">();</span></span>
 <span id="cb89-29"><a href="#cb89-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb89-30"><a href="#cb89-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><em><code>todoFullStack\jwt\JwtTokenAuthorizationOncePerRequestFilter.java</code></em></strong></p>
 <div class="sourceCode" id="cb90"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">jwt</span><span class="op">;</span></span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">IOException</span><span class="op">;</span></span>
@@ -1683,7 +1686,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb90-1"><a href=
 <span id="cb90-69"><a href="#cb90-69" aria-hidden="true" tabindex="-1"></a>        chain<span class="op">.</span><span class="fu">doFilter</span><span class="op">(</span>request<span class="op">,</span> response<span class="op">);</span></span>
 <span id="cb90-70"><a href="#cb90-70" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb90-71"><a href="#cb90-71" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><em><code>todoFullStack\jwt\JwtUnAuthorizedResponseAuthenticationEntryPoint.java</code></em></strong></p>
 <div class="sourceCode" id="cb91"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">jwt</span><span class="op">;</span></span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1707,7 +1710,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb91-1"><a href=
 <span id="cb91-20"><a href="#cb91-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;You would need to provide the Jwt Token to Access This resource&quot;</span><span class="op">);</span></span>
 <span id="cb91-21"><a href="#cb91-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb91-22"><a href="#cb91-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><em><code>todoFullStack\jwt\JwtUserDetails.java</code></em></strong></p>
 <div class="sourceCode" id="cb92"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">jwt</span><span class="op">;</span></span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1783,7 +1786,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb92-1"><a href=
 <span id="cb92-72"><a href="#cb92-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
 <span id="cb92-73"><a href="#cb92-73" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb92-74"><a href="#cb92-74" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong><em>todoFullStack.java</em></strong></p>
+<p><strong><em><code>todoFullStack\jwt\JWTWebSecurityConfig.java</code></em></strong></p>
 <div class="sourceCode" id="cb93"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">jwt</span><span class="op">;</span></span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1857,7 +1860,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb93-1"><a href=
 <span id="cb93-70"><a href="#cb93-70" aria-hidden="true" tabindex="-1"></a>                <span class="op">).</span><span class="fu">and</span><span class="op">().</span><span class="fu">ignoring</span><span class="op">().</span><span class="fu">antMatchers</span><span class="op">(</span><span class="st">&quot;/h2-console/**/**&quot;</span><span class="op">);</span><span class="co">// Should not be in Production!</span></span>
 <span id="cb93-71"><a href="#cb93-71" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb93-72"><a href="#cb93-72" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h4 id="endpoints">Endpoints</h4>
+<h3 id="endpoints">Endpoints</h3>
 <div class="sourceCode" id="cb94"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># JWT generate Token </span></span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--location</span> <span class="at">--request</span> POST <span class="st">&#39;http://localhost:8080/authenticate&#39;</span> <span class="dt">\</span></span>
@@ -1877,6 +1880,153 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb94-1"><a href="#
 <span id="cb94-16"><a href="#cb94-16" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--location</span> <span class="at">--request</span> GET <span class="st">&#39;http://localhost:8080/users/user/todos&#39;</span> <span class="dt">\</span></span>
 <span id="cb94-17"><a href="#cb94-17" aria-hidden="true" tabindex="-1"></a>--header <span class="st">&#39;Origin: http://localhost:4200&#39;</span> <span class="dt">\</span></span>
 <span id="cb94-18"><a href="#cb94-18" aria-hidden="true" tabindex="-1"></a>--header <span class="st">&#39;Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjUzNTkxMDcyLCJpYXQiOjE2NTI5ODYyNzJ9.5HPfVvVQiY6OVFfw0OevJ2kqRI4weLtvegUB7d066lKcAY1pCndY6iyAkx60sc5kwtgHKnq43z8gQJzBEwduxA&#39;</span></span></code></pre></div>
+<h2 id="using-database">Using Database</h2>
+<p>To connect database with our fullstack application , we need to
+configure <code>application.properties</code>, Model , Repository,
+Service and Controller.</p>
+<p><strong><em>application.properties</em></strong></p>
+<pre class="properties"><code>#logging.level.org.springframework=debug
+logging.level.org.springframework = info
+
+# Spring Security Properties
+spring.security.user.name=user
+spring.security.user.password=dummy
+crossorigins.origin.url=http://localhost:4200
+
+# JWT properties
+jwt.signing.key.secret=mySecret
+jwt.get.token.uri=/authenticate
+jwt.refresh.token.uri=/refresh
+jwt.http.request.header=Authorization
+jwt.token.expiration.in.seconds=604800
+
+############### JPA config ###############
+#spring.h2.console.enabled=true
+#update means directly change in db while I run application
+spring.jpa.hibernate.ddl-auto=update
+# spring.jpa.hibernate.ddl-auto=create
+spring.jpa.show-sql=true
+# spring.jpa.defer-datasource-initialization=true
+spring.sql.init.mode=always
+#spring.datasource.initialization-mode=always #--&gt; Or for Spring Boot before 2.5:
+
+############### Connecting to Postgres Database ###############
+#spring.datasource.url=jdbc:postgresql://host:port/database
+spring.datasource.url=jdbc:postgresql://free-tier12.aws-ap-south-1.cockroachlabs.cloud:26257/swarna-db-200.defaultdb
+spring.datasource.username=swarnadeep
+spring.datasource.password=XXXXXXXXXX
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+#spring.jooq.sql-dialect=postgres</code></pre>
+<p><strong><em><code>backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\todo\Todo.java</code></em></strong></p>
+<div class="sourceCode" id="cb96"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="at">@NoArgsConstructor</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="at">@AllArgsConstructor</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a><span class="at">@Builder</span></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a><span class="at">@Entity</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a><span class="at">@Table</span><span class="op">(</span>name<span class="op">=</span><span class="st">&quot;TODO_FULLSTACK&quot;</span><span class="op">,</span> schema <span class="op">=</span> <span class="st">&quot;public&quot;</span><span class="op">)</span></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Todo <span class="op">{</span></span>
+<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-9"><a href="#cb96-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Id</span></span>
+<span id="cb96-10"><a href="#cb96-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@SequenceGenerator</span><span class="op">(</span>name <span class="op">=</span> <span class="st">&quot;todo_seq&quot;</span><span class="op">,</span>sequenceName <span class="op">=</span> <span class="st">&quot;todo_seq&quot;</span><span class="op">,</span>allocationSize <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> schema <span class="op">=</span> <span class="st">&quot;public&quot;</span><span class="op">)</span></span>
+<span id="cb96-11"><a href="#cb96-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GeneratedValue</span><span class="op">(</span>strategy <span class="op">=</span> GenerationType<span class="op">.</span><span class="fu">SEQUENCE</span><span class="op">,</span> generator <span class="op">=</span> <span class="st">&quot;todo_seq&quot;</span><span class="op">)</span></span>
+<span id="cb96-12"><a href="#cb96-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Long</span> id<span class="op">;</span></span>
+<span id="cb96-13"><a href="#cb96-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-14"><a href="#cb96-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> username<span class="op">;</span></span>
+<span id="cb96-15"><a href="#cb96-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> description<span class="op">;</span></span>
+<span id="cb96-16"><a href="#cb96-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Date</span> targetDate<span class="op">;</span></span>
+<span id="cb96-17"><a href="#cb96-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">boolean</span> isDone<span class="op">;</span></span>
+<span id="cb96-18"><a href="#cb96-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em><code>backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\TodoRepository.java</code></em></strong></p>
+<div class="sourceCode" id="cb97"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> TodoRepository <span class="kw">extends</span> CrudRepository<span class="op">&lt;</span>Todo<span class="op">,</span> <span class="bu">Long</span><span class="op">&gt;{</span></span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">List</span><span class="op">&lt;</span>Todo<span class="op">&gt;</span> <span class="fu">findByUsername</span><span class="op">(</span><span class="bu">String</span> username<span class="op">);</span></span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em><code>backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\todo\TodoService.java</code></em></strong></p>
+<div class="sourceCode" id="cb98"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Service</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TodoService <span class="op">{</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span></span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> TodoRepository todoRepository<span class="op">;</span></span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">List</span><span class="op">&lt;</span>Todo<span class="op">&gt;</span> <span class="fu">getAllTodos</span><span class="op">(</span><span class="bu">String</span> username<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> todoRepository<span class="op">.</span><span class="fu">findByUsername</span><span class="op">(</span>username<span class="op">);</span></span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// todoRepository.findAll().forEach(t -&gt; todos.add(t));;</span></span>
+<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// return todos;</span></span>
+<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb98-12"><a href="#cb98-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-13"><a href="#cb98-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Optional<span class="op">&lt;</span>Todo<span class="op">&gt;</span> <span class="fu">getTodo</span><span class="op">(</span><span class="dt">long</span> id<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb98-14"><a href="#cb98-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> todoRepository<span class="op">.</span><span class="fu">findById</span><span class="op">(</span>id<span class="op">);</span></span>
+<span id="cb98-15"><a href="#cb98-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb98-16"><a href="#cb98-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-17"><a href="#cb98-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Todo <span class="fu">save</span><span class="op">(</span>Todo todo<span class="op">,</span> <span class="bu">String</span> username<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb98-18"><a href="#cb98-18" aria-hidden="true" tabindex="-1"></a>        todo<span class="op">.</span><span class="fu">setUsername</span><span class="op">(</span>username<span class="op">);</span></span>
+<span id="cb98-19"><a href="#cb98-19" aria-hidden="true" tabindex="-1"></a>        Todo savedTodo <span class="op">=</span> todoRepository<span class="op">.</span><span class="fu">save</span><span class="op">(</span>todo<span class="op">);</span></span>
+<span id="cb98-20"><a href="#cb98-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> savedTodo<span class="op">;</span></span>
+<span id="cb98-21"><a href="#cb98-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb98-22"><a href="#cb98-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-23"><a href="#cb98-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Optional<span class="op">&lt;</span>Todo<span class="op">&gt;</span> <span class="fu">deleteById</span><span class="op">(</span><span class="dt">long</span> id<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb98-24"><a href="#cb98-24" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span>Todo<span class="op">&gt;</span> todo <span class="op">=</span> todoRepository<span class="op">.</span><span class="fu">findById</span><span class="op">(</span>id<span class="op">);</span></span>
+<span id="cb98-25"><a href="#cb98-25" aria-hidden="true" tabindex="-1"></a>        todoRepository<span class="op">.</span><span class="fu">deleteById</span><span class="op">(</span>id<span class="op">);</span></span>
+<span id="cb98-26"><a href="#cb98-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> todo<span class="op">;</span></span>
+<span id="cb98-27"><a href="#cb98-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb98-28"><a href="#cb98-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em><code>backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\todo\TodoController.java</code></em></strong></p>
+<div class="sourceCode" id="cb99"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="at">@CrossOrigin</span><span class="op">(</span>origins <span class="op">=</span> <span class="st">&quot;${crossorigins.origin.url}&quot;</span><span class="op">)</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="at">@RestController</span></span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TodoController <span class="op">{</span></span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span></span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> TodoService todoService<span class="op">;</span></span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GetMapping</span><span class="op">(</span><span class="st">&quot;/users/{username}/todos&quot;</span><span class="op">)</span></span>
+<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">List</span><span class="op">&lt;</span>Todo<span class="op">&gt;</span> <span class="fu">getAllTodos</span><span class="op">(</span><span class="at">@PathVariable</span> <span class="bu">String</span> username<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> todoService<span class="op">.</span><span class="fu">getAllTodos</span><span class="op">(</span>username<span class="op">);</span></span>
+<span id="cb99-11"><a href="#cb99-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb99-12"><a href="#cb99-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-13"><a href="#cb99-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GetMapping</span><span class="op">(</span><span class="st">&quot;/users/{username}/todos/{id}&quot;</span><span class="op">)</span></span>
+<span id="cb99-14"><a href="#cb99-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Optional<span class="op">&lt;</span>Todo<span class="op">&gt;</span> <span class="fu">getTodo</span><span class="op">(</span><span class="at">@PathVariable</span> <span class="bu">String</span> username<span class="op">,</span> <span class="at">@PathVariable</span> <span class="dt">long</span> id<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb99-15"><a href="#cb99-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> todoService<span class="op">.</span><span class="fu">getTodo</span><span class="op">(</span>id<span class="op">);</span></span>
+<span id="cb99-16"><a href="#cb99-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb99-17"><a href="#cb99-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-18"><a href="#cb99-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">@DeleteMapping</span><span class="op">(</span><span class="st">&quot;/users/{username}/todos/{id}&quot;</span><span class="op">)</span></span>
+<span id="cb99-19"><a href="#cb99-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> ResponseEntity<span class="op">&lt;</span><span class="bu">Void</span><span class="op">&gt;</span> <span class="fu">deleteTodo</span><span class="op">(</span><span class="at">@PathVariable</span> <span class="bu">String</span> username<span class="op">,</span> <span class="at">@PathVariable</span> <span class="dt">long</span> id<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb99-20"><a href="#cb99-20" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span>Todo<span class="op">&gt;</span> todo <span class="op">=</span> todoService<span class="op">.</span><span class="fu">deleteById</span><span class="op">(</span>id<span class="op">);</span></span>
+<span id="cb99-21"><a href="#cb99-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>todo <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb99-22"><a href="#cb99-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> ResponseEntity<span class="op">.</span><span class="fu">noContent</span><span class="op">().</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb99-23"><a href="#cb99-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb99-24"><a href="#cb99-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> ResponseEntity<span class="op">.</span><span class="fu">notFound</span><span class="op">().</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb99-25"><a href="#cb99-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb99-26"><a href="#cb99-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-27"><a href="#cb99-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">@PutMapping</span><span class="op">(</span><span class="st">&quot;/users/{username}/todos/{id}&quot;</span><span class="op">)</span></span>
+<span id="cb99-28"><a href="#cb99-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> ResponseEntity<span class="op">&lt;</span>Todo<span class="op">&gt;</span> <span class="fu">updateTodo</span><span class="op">(</span><span class="at">@PathVariable</span> <span class="bu">String</span> username<span class="op">,</span> <span class="at">@PathVariable</span> <span class="dt">long</span> id<span class="op">,</span> <span class="at">@RequestBody</span> Todo todo<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb99-29"><a href="#cb99-29" aria-hidden="true" tabindex="-1"></a>        Todo todoUpdated <span class="op">=</span> todoService<span class="op">.</span><span class="fu">save</span><span class="op">(</span>todo<span class="op">,</span> username<span class="op">);</span></span>
+<span id="cb99-30"><a href="#cb99-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">new</span> ResponseEntity<span class="op">&lt;</span>Todo<span class="op">&gt;(</span>todoUpdated<span class="op">,</span> HttpStatus<span class="op">.</span><span class="fu">OK</span><span class="op">);</span> </span>
+<span id="cb99-31"><a href="#cb99-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb99-32"><a href="#cb99-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-33"><a href="#cb99-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">@PostMapping</span><span class="op">(</span><span class="st">&quot;/users/{username}/todos&quot;</span><span class="op">)</span></span>
+<span id="cb99-34"><a href="#cb99-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> ResponseEntity<span class="op">&lt;</span><span class="bu">Void</span><span class="op">&gt;</span> <span class="fu">createTodo</span><span class="op">(</span><span class="at">@PathVariable</span> <span class="bu">String</span> username<span class="op">,</span> <span class="at">@RequestBody</span> Todo todo<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb99-35"><a href="#cb99-35" aria-hidden="true" tabindex="-1"></a>        Todo createdTodo <span class="op">=</span> todoService<span class="op">.</span><span class="fu">save</span><span class="op">(</span>todo<span class="op">,</span> username<span class="op">);</span></span>
+<span id="cb99-36"><a href="#cb99-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-37"><a href="#cb99-37" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Creating a new URI for the new Todo and returning URL by appending id</span></span>
+<span id="cb99-38"><a href="#cb99-38" aria-hidden="true" tabindex="-1"></a>        <span class="bu">URI</span> uri <span class="op">=</span> ServletUriComponentsBuilder<span class="op">.</span><span class="fu">fromCurrentRequest</span><span class="op">().</span><span class="fu">path</span><span class="op">(</span><span class="st">&quot;/{id}&quot;</span><span class="op">).</span><span class="fu">buildAndExpand</span><span class="op">(</span>createdTodo<span class="op">.</span><span class="fu">getId</span><span class="op">()).</span><span class="fu">toUri</span><span class="op">();</span></span>
+<span id="cb99-39"><a href="#cb99-39" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>uri<span class="op">);</span></span>
+<span id="cb99-40"><a href="#cb99-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> ResponseEntity<span class="op">.</span><span class="fu">created</span><span class="op">(</span>uri<span class="op">).</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="cb99-41"><a href="#cb99-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb99-42"><a href="#cb99-42" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em><code>backend\TodoFullStack\src\main\resources\data.sql</code></em></strong>
+- To save some initial data in database.</p>
+<pre class="postgresql"><code>INSERT INTO public.TODO_FULLSTACK (id, username, description, target_date, is_done) 
+VALUES (nextval(&#39;public.todo_seq&#39;), &#39;user&#39;, &#39;My first Todo&#39;, CURRENT_TIMESTAMP ,true);
+
+INSERT INTO public.TODO_FULLSTACK (id, username, description, target_date, is_done) 
+VALUES (nextval(&#39;public.todo_seq&#39;), &#39;user&#39;, &#39;Spring Boot microservices&#39;, CURRENT_TIMESTAMP ,false);
+
+INSERT INTO public.TODO_FULLSTACK (id, username, description, target_date, is_done) 
+VALUES (nextval(&#39;public.todo_seq&#39;), &#39;user&#39;, &#39;Angular&#39;, CURRENT_TIMESTAMP ,true);</code></pre>
         </div>
       </div>
     </div>
