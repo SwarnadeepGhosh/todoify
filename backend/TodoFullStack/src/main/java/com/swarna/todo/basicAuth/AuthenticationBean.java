@@ -1,4 +1,4 @@
-package com.swarna.todoFullStack.basicAuth;
+package com.swarna.todo.basicAuth;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
