@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_URL } from 'src/app/app.constants';
+import { environment } from 'src/environments/environment';
 
 class HelloWorldBean {
   constructor(public message: String) {}
@@ -10,10 +10,12 @@ class HelloWorldBean {
   providedIn: 'root',
 })
 export class WelcomeDataService {
+
+  baseUrl = environment.baseUrl;
   constructor(private http: HttpClient) {}
 
   executeHelloWorldBeanService() {
-    return this.http.get<HelloWorldBean>(`${API_URL}/hello-bean`);
+    return this.http.get<HelloWorldBean>(`${this.baseUrl}/hello-bean`);
     // returns> Observable {source: Observable, operator: ƒ} and no call in network tab
     // console.log('executeHelloWorldBean');
   }
@@ -21,7 +23,7 @@ export class WelcomeDataService {
   executeHelloWorldBeanServiceWithParameter(name: any) {
     // let basicAuthHeaderString = this.createBasicAuthenticationHeader();
     // let headers = new HttpHeaders({ Authorization : basicAuthHeaderString })
-    return this.http.get<HelloWorldBean>(`${API_URL}/hello/path-variable/${name}`/*,{headers}*/);
+    return this.http.get<HelloWorldBean>(`${this.baseUrl}/hello/path-variable/${name}`/*,{headers}*/);
   }
 
   // createBasicAuthenticationHeader() {
@@ -31,8 +33,8 @@ export class WelcomeDataService {
   //   return basicAuthHeaderString;
   // }
 
-  /* welcome/user:1 Access to XMLHttpRequest at '${API_URL}/hello/path-variable/user' from origin 'http://localhost:4200' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.*/
-  // Access to XMLHttpRequest at '${API_URL}/hello/path-variable/user' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+  /* welcome/user:1 Access to XMLHttpRequest at '${this.baseUrl}/hello/path-variable/user' from origin 'http://localhost:4200' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.*/
+  // Access to XMLHttpRequest at '${this.baseUrl}/hello/path-variable/user' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
   // OPTION is being sent before GET request happen and it is failing
   // Configuring CSRF(Cross Site Request Format) with Spring Security
 }

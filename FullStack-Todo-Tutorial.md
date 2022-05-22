@@ -2244,3 +2244,72 @@ VALUES (nextval('public.todo_seq'), 'user', 'Angular', CURRENT_TIMESTAMP ,true);
 
 
 
+## Deploying FullStack in Heroku
+
+### Deploying Backend
+
+We have to mention java version in Spring Boot pom.xml and heroku property file and both should match. 
+
+**`backend\TodoFullStack\system.properties`**
+
+```properties
+java.runtime.version=11
+```
+
+***pom.xml***
+
+```xml
+<properties>
+    <java.version>11</java.version>
+</properties>
+```
+
+
+
+### Deploying Frontend with Environment
+
+We should provide backend API url using ***enviroment.ts*** files for different enviromnents.
+
+***environment.ts***
+
+```typescript
+export const environment = {
+  production: false,
+  baseUrl : 'http://localhost:8080' // baseUrl is the URL for backend
+};
+```
+
+***environment.prod.ts***
+
+```typescript
+export const environment = {
+  production: true,
+  baseUrl: 'https://todo-fullstack-backend.herokuapp.com' // baseUrl is the URL for backend
+};
+```
+
+Now in ***service.ts*** file, we have to mention like below
+
+```typescript
+export class TodoDataService {
+  baseUrl = environment.baseUrl;
+  ...
+  
+  getAllTodos(username: any) {
+    return this.http.get<Todo[]>(`${this.baseUrl}/users/${username}/todos`);
+  }
+```
+
+
+
+***package.json*** - output dist folder path should mention in start command
+
+```json
+"scripts": {
+    ...
+    "heroku-postbuild":"ng build --prod && npm install -g http-server-spa",
+    "start": "http-server-spa dist/todo index.html $PORT",
+	...
+},
+```
+
