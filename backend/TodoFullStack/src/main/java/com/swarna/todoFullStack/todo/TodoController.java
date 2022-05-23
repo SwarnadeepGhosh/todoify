@@ -4,9 +4,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,21 +29,28 @@ public class TodoController {
 
     @Autowired
     private TodoService todoService;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(TodoController.class);
 
     @GetMapping("/users/{username}/todos")
     public List<Todo> getAllTodos(@PathVariable String username) {
+    	LOGGER.info("Fetching All todos for particular User " +username);
         return todoService.getAllTodos(username);
         // return todoService.getAllTodos();
         // returns default 200 OK with Todo List
     }
 
     @GetMapping("/users/{username}/todos/{id}")
+    @Transactional(readOnly = true) // True for select, for update/insert, false for default
+    @Cacheable("todo-cache")
     public Optional<Todo> getTodo(@PathVariable String username, @PathVariable long id) {
+    	LOGGER.info("Fetching a todos for particular User " + id);
         return todoService.getTodo(id);
         // returns default 200 OK with one Todo
     }
 
     @DeleteMapping("/users/{username}/todos/{id}")
+    @CacheEvict("todo-cache")
     public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id) {
         Optional<Todo> todo = todoService.deleteById(id);
         if (todo != null) {

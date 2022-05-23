@@ -2313,3 +2313,155 @@ export class TodoDataService {
 },
 ```
 
+
+
+
+
+## Logging by SLF4j
+
+***application.properties***
+
+```properties
+############### Logging ###############
+logging.file.name=logs/application.log
+logging.level.root=INFO,ERROR,DEBUG
+# Log Level for springframework (info, error, debug etc)
+#logging.level.org.springframework = error
+# Log Level for Specific Controller
+#logging.level.com.swarna.todoFullStack.todo = error
+```
+
+***TodoController.java***
+
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+// defining LOGGER 
+private static final Logger LOGGER = LoggerFactory.getLogger(TodoController.class);
+
+// using Logger within method 
+LOGGER.info("Fetching All todos for particular User " +username);
+LOGGER.info("Fetching a todos for particular User " + id);
+```
+
+Output file : **`backend\TodoFullStack\logs\application.log`**
+
+```log
+...
+2022-05-23 12:54:02.330  INFO 7632 --- [http-nio-8080-exec-7] c.s.todoFullStack.todo.TodoController    : Fetching All todos for particular User user
+...
+```
+
+#### Rolling Log
+
+Spring boot automatic roll its log files. Lets say `logging.file.name=logs/application.log` , then it will make a `.gz` file with the previous day's log and save it in same folder with name : `application.log.2022-05-22.0.gz`
+
+
+
+## Caching by Hazlecast
+
+Caching is a process of storing the objects that are converted from database records into a temporary memory location so that when the client reads the same exact data the orm tools need not go against the database.
+
+To enable caching for our applications Spring boot uses third party cash providers like Hazelcast or EH cache or JBoss cache. Cache Hazelcast is a popular one and we'll use that.
+
+#### Steps 
+1. Add dependencies - SpringBoot and Hazlecast
+  ```xml
+  <dependency>
+  	<groupId>org.springframework.boot</groupId>
+  	<artifactId>spring-boot-starter-cache</artifactId>
+  </dependency>
+  <dependency>
+  	<groupId>com.hazelcast</groupId>
+  	<artifactId>hazelcast</artifactId>
+  </dependency>
+  <dependency>
+  	<groupId>com.hazelcast</groupId>
+  	<artifactId>hazelcast-spring</artifactId>
+  </dependency>
+  ```
+
+2. Create Cache Configuration and we need to serialize model class also.
+
+   **`com\swarna\todoFullStack\config\CacheConfig.java`**
+
+   ```java
+   package com.swarna.todoFullStack.config;
+   import org.springframework.context.annotation.Bean;
+   import org.springframework.context.annotation.Configuration;
+   import com.hazelcast.config.Config;
+   import com.hazelcast.config.MapConfig;
+   
+   @Configuration
+   public class CacheConfig {
+   	@Bean
+   	public Config cacheConfig() {
+   		return new Config()
+               .setInstanceName("hazle-instance") // instance name for caching
+               .addMapConfig(new MapConfig() // Adding one cache, we can configure as many cache as we want
+                         .setName("todo-cache") // cache will be saved with this name
+                         .setTimeToLiveSeconds(3000)); // cache will be evicted after 5 minutes
+   	}
+   }
+   ```
+
+   ***Todo.java*** - Serializing model class also.
+
+   ```java
+   import java.io.Serializable;
+   ...
+   public class Todo implements Serializable {
+   	private static final long serialVersionUID = 1L;
+   	...
+   }
+   ```
+
+   
+
+3. Enable and user caching - `@EnableCaching`, `@Cacheable("cache-name")` and `@Transactional(readOnly = true)` in Controller method.
+
+   ***TodoFullStackApplication.java*** - Enabling cashing in `main()` method.
+
+   ```java
+   import org.springframework.cache.annotation.EnableCaching;
+   ...
+   @EnableCaching
+   public class TodoFullStackApplication {
+   	public static void main(String[] args) {
+   		SpringApplication.run(TodoFullStackApplication.class, args);
+   	}
+   }
+   ```
+
+   ***TodoController.java*** - Adding Cacheable and Transactional
+
+   ```java
+   import org.springframework.cache.annotation.Cacheable;
+   ...
+       @GetMapping("/users/{username}/todos/{id}")
+       @Transactional(readOnly = true) // True for select, for update/insert, false for default
+       @Cacheable("todo-cache")
+       public Optional<Todo> getTodo(@PathVariable String username, @PathVariable long id) {... }
+   ...
+   ```
+
+   
+
+4. Evict cache method - by what time the cache should deleted.
+  - LRU(least recently used)
+  - LFU(least frequently used)
+  - NONE - application will crash after cache full
+  - RANDOM	
+
+​		***TodoController.java***
+
+```java
+import org.springframework.cache.annotation.CacheEvict;
+...
+    @DeleteMapping("/users/{username}/todos/{id}")
+    @CacheEvict("todo-cache")
+    public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id) {...}
+...
+```
+

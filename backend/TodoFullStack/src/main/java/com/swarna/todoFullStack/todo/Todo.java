@@ -1,5 +1,6 @@
 package com.swarna.todoFullStack.todo;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,9 +20,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name="TODO_FULLSTACK", schema = "public")
-public class Todo {
+public class Todo implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
-    @Id
+	@Id
     @SequenceGenerator(name = "todo_seq",sequenceName = "todo_seq",allocationSize = 1, schema = "public")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "todo_seq")
     private Long id;
