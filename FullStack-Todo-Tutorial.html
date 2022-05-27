@@ -8,7 +8,7 @@
     <meta name="generator" content="pandoc">
     <meta name="description" content="">
 
-    <title>Todo FullStack</title>
+    <title>FullStack-Todo-Tutorial</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -149,6 +149,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </ul></li>
           <li><a href="#using-database" id="toc-using-database">Using
           Database</a></li>
+          <li><a href="#deploying-fullstack-in-heroku"
+          id="toc-deploying-fullstack-in-heroku">Deploying FullStack in
+          Heroku</a>
+          <ul>
+          <li><a href="#deploying-backend"
+          id="toc-deploying-backend">Deploying Backend</a></li>
+          <li><a href="#deploying-frontend-with-environment"
+          id="toc-deploying-frontend-with-environment">Deploying
+          Frontend with Environment</a></li>
+          </ul></li>
+          <li><a href="#logging-by-slf4j"
+          id="toc-logging-by-slf4j">Logging by SLF4j</a></li>
+          <li><a href="#caching-by-hazlecast"
+          id="toc-caching-by-hazlecast">Caching by Hazlecast</a></li>
           </ul></li>
           </ul>
         </div>
@@ -157,8 +171,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>​</p>
 <h1 id="todo-full-stack-with-angular-and-spring-boot">Todo Full Stack
 with Angular and Spring Boot</h1>
-<p>Course Link :
-https://tcsglobal.udemy.com/course/full-stack-application-development-with-spring-boot-and-angular/learn</p>
+<p><a href="https://todo-fullstack-swarna.herokuapp.com/">Live Link</a>
+: https://todo-fullstack-swarna.herokuapp.com/</p>
 <p>Repository Link :
 https://github.com/in28minutes/full-stack-with-angular-and-spring-boot</p>
 <h2 id="frontend">Frontend</h2>
@@ -1885,13 +1899,11 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb94-1"><a href="#
 configure <code>application.properties</code>, Model , Repository,
 Service and Controller.</p>
 <p><strong><em>application.properties</em></strong></p>
-<pre class="properties"><code>#logging.level.org.springframework=debug
-logging.level.org.springframework = info
-
-# Spring Security Properties
+<pre class="properties"><code># Spring Security Properties
 spring.security.user.name=user
 spring.security.user.password=dummy
 crossorigins.origin.url=http://localhost:4200
+# crossorigins.origin.url=https://todo-fullstack-swarna.herokuapp.com
 
 # JWT properties
 jwt.signing.key.secret=mySecret
@@ -1914,10 +1926,19 @@ spring.sql.init.mode=always
 #spring.datasource.url=jdbc:postgresql://host:port/database
 spring.datasource.url=jdbc:postgresql://free-tier12.aws-ap-south-1.cockroachlabs.cloud:26257/swarna-db-200.defaultdb
 spring.datasource.username=swarnadeep
-spring.datasource.password=XXXXXXXXXX
+spring.datasource.password=uLYrds69nT_WNO5vEQn9rQ
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
-#spring.jooq.sql-dialect=postgres</code></pre>
+#spring.jooq.sql-dialect=postgres
+
+
+############### Logging ###############
+# logging.file.name=logs/application.log
+logging.level.root=INFO
+# Log Level for springframework (info, error, debug etc)
+#logging.level.org.springframework = error
+# Log Level for Specific Controller
+#logging.level.com.swarna.todoFullStack.todo = error</code></pre>
 <p><strong><em><code>backend\TodoFullStack\src\main\java\com\swarna\todoFullStack\todo\Todo.java</code></em></strong></p>
 <div class="sourceCode" id="cb96"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
@@ -2027,6 +2048,181 @@ VALUES (nextval(&#39;public.todo_seq&#39;), &#39;user&#39;, &#39;Spring Boot mic
 
 INSERT INTO public.TODO_FULLSTACK (id, username, description, target_date, is_done) 
 VALUES (nextval(&#39;public.todo_seq&#39;), &#39;user&#39;, &#39;Angular&#39;, CURRENT_TIMESTAMP ,true);</code></pre>
+<h2 id="deploying-fullstack-in-heroku">Deploying FullStack in
+Heroku</h2>
+<h3 id="deploying-backend">Deploying Backend</h3>
+<p>We have to mention java version in Spring Boot pom.xml and heroku
+property file and both should match.</p>
+<p><strong><code>backend\TodoFullStack\system.properties</code></strong></p>
+<pre class="properties"><code>java.runtime.version=11</code></pre>
+<p><strong><em>pom.xml</em></strong></p>
+<div class="sourceCode" id="cb102"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">properties</span>&gt;</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">java.version</span>&gt;11&lt;/<span class="kw">java.version</span>&gt;</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">properties</span>&gt;</span></code></pre></div>
+<h3 id="deploying-frontend-with-environment">Deploying Frontend with
+Environment</h3>
+<p>We should provide backend API url using
+<strong><em>enviroment.ts</em></strong> files for different
+enviromnents.</p>
+<p><strong><em>environment.ts</em></strong></p>
+<div class="sourceCode" id="cb103"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> environment <span class="op">=</span> {</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>  production<span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>  baseUrl <span class="op">:</span> <span class="st">&#39;http://localhost:8080&#39;</span> <span class="co">// baseUrl is the URL for backend</span></span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p><strong><em>environment.prod.ts</em></strong></p>
+<div class="sourceCode" id="cb104"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> environment <span class="op">=</span> {</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  production<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>  baseUrl<span class="op">:</span> <span class="st">&#39;https://todo-fullstack-backend.herokuapp.com&#39;</span> <span class="co">// baseUrl is the URL for backend</span></span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>Now in <strong><em>service.ts</em></strong> file, we have to mention
+like below</p>
+<div class="sourceCode" id="cb105"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> TodoDataService {</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>  baseUrl <span class="op">=</span> environment<span class="op">.</span><span class="at">baseUrl</span><span class="op">;</span></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">...</span></span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getAllTodos</span>(username<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">http</span><span class="op">.</span><span class="fu">get</span><span class="op">&lt;</span>Todo[]<span class="op">&gt;</span>(<span class="vs">`</span><span class="sc">${</span><span class="kw">this</span><span class="op">.</span><span class="at">baseUrl</span><span class="sc">}</span><span class="vs">/users/</span><span class="sc">${</span>username<span class="sc">}</span><span class="vs">/todos`</span>)<span class="op">;</span></span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<p><strong><em>package.json</em></strong> - output dist folder path
+should mention in start command</p>
+<div class="sourceCode" id="cb106"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;scripts&quot;:</span> <span class="fu">{</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>    <span class="er">...</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;heroku-postbuild&quot;</span><span class="fu">:</span><span class="st">&quot;ng build --prod &amp;&amp; npm install -g http-server-spa&quot;</span><span class="fu">,</span></span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;start&quot;</span><span class="fu">:</span> <span class="st">&quot;http-server-spa dist/todo index.html $PORT&quot;</span><span class="fu">,</span></span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>    <span class="er">...</span></span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span><span class="er">,</span></span></code></pre></div>
+<h2 id="logging-by-slf4j">Logging by SLF4j</h2>
+<p><strong><em>application.properties</em></strong></p>
+<pre class="properties"><code>############### Logging ###############
+logging.file.name=logs/application.log
+logging.level.root=INFO,ERROR,DEBUG
+# Log Level for springframework (info, error, debug etc)
+#logging.level.org.springframework = error
+# Log Level for Specific Controller
+#logging.level.com.swarna.todoFullStack.todo = error</code></pre>
+<p><strong><em>TodoController.java</em></strong></p>
+<div class="sourceCode" id="cb108"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">slf4j</span><span class="op">.</span><span class="im">Logger</span><span class="op">;</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">slf4j</span><span class="op">.</span><span class="im">LoggerFactory</span><span class="op">;</span></span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a><span class="co">// defining LOGGER </span></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">Logger</span> LOGGER <span class="op">=</span> LoggerFactory<span class="op">.</span><span class="fu">getLogger</span><span class="op">(</span>TodoController<span class="op">.</span><span class="fu">class</span><span class="op">);</span></span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a><span class="co">// using Logger within method </span></span>
+<span id="cb108-8"><a href="#cb108-8" aria-hidden="true" tabindex="-1"></a>LOGGER<span class="op">.</span><span class="fu">info</span><span class="op">(</span><span class="st">&quot;Fetching All todos for particular User &quot;</span> <span class="op">+</span>username<span class="op">);</span></span>
+<span id="cb108-9"><a href="#cb108-9" aria-hidden="true" tabindex="-1"></a>LOGGER<span class="op">.</span><span class="fu">info</span><span class="op">(</span><span class="st">&quot;Fetching a todos for particular User &quot;</span> <span class="op">+</span> id<span class="op">);</span></span></code></pre></div>
+<p>Output file :
+<strong><code>backend\TodoFullStack\logs\application.log</code></strong></p>
+<pre class="log"><code>...
+2022-05-23 12:54:02.330  INFO 7632 --- [http-nio-8080-exec-7] c.s.todoFullStack.todo.TodoController    : Fetching All todos for particular User user
+...</code></pre>
+<h4 id="rolling-log">Rolling Log</h4>
+<p>Spring boot automatic roll its log files. Lets say
+<code>logging.file.name=logs/application.log</code> , then it will make
+a <code>.gz</code> file with the previous day’s log and save it in same
+folder with name : <code>application.log.2022-05-22.0.gz</code></p>
+<h2 id="caching-by-hazlecast">Caching by Hazlecast</h2>
+<p>Caching is a process of storing the objects that are converted from
+database records into a temporary memory location so that when the
+client reads the same exact data the orm tools need not go against the
+database.</p>
+<p>To enable caching for our applications Spring boot uses third party
+cash providers like Hazelcast or EH cache or JBoss cache. Cache
+Hazelcast is a popular one and we’ll use that.</p>
+<h4 id="steps-1">Steps</h4>
+<ol type="1">
+<li>Add dependencies - SpringBoot and Hazlecast</li>
+</ol>
+<div class="sourceCode" id="cb110"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dependency</span>&gt;</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">groupId</span>&gt;org.springframework.boot&lt;/<span class="kw">groupId</span>&gt;</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">artifactId</span>&gt;spring-boot-starter-cache&lt;/<span class="kw">artifactId</span>&gt;</span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dependency</span>&gt;</span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dependency</span>&gt;</span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">groupId</span>&gt;com.hazelcast&lt;/<span class="kw">groupId</span>&gt;</span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">artifactId</span>&gt;hazelcast&lt;/<span class="kw">artifactId</span>&gt;</span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dependency</span>&gt;</span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dependency</span>&gt;</span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">groupId</span>&gt;com.hazelcast&lt;/<span class="kw">groupId</span>&gt;</span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">artifactId</span>&gt;hazelcast-spring&lt;/<span class="kw">artifactId</span>&gt;</span>
+<span id="cb110-12"><a href="#cb110-12" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dependency</span>&gt;</span></code></pre></div>
+<ol start="2" type="1">
+<li><p>Create Cache Configuration and we need to serialize model class
+also.</p>
+<p><strong><code>com\swarna\todoFullStack\config\CacheConfig.java</code></strong></p>
+<div class="sourceCode" id="cb111"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">swarna</span><span class="op">.</span><span class="im">todoFullStack</span><span class="op">.</span><span class="im">config</span><span class="op">;</span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">springframework</span><span class="op">.</span><span class="im">context</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">Bean</span><span class="op">;</span></span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">springframework</span><span class="op">.</span><span class="im">context</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">Configuration</span><span class="op">;</span></span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">hazelcast</span><span class="op">.</span><span class="im">config</span><span class="op">.</span><span class="im">Config</span><span class="op">;</span></span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">hazelcast</span><span class="op">.</span><span class="im">config</span><span class="op">.</span><span class="im">MapConfig</span><span class="op">;</span></span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a><span class="at">@Configuration</span></span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> CacheConfig <span class="op">{</span></span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a> <span class="at">@Bean</span></span>
+<span id="cb111-10"><a href="#cb111-10" aria-hidden="true" tabindex="-1"></a> <span class="kw">public</span> Config <span class="fu">cacheConfig</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb111-11"><a href="#cb111-11" aria-hidden="true" tabindex="-1"></a>     <span class="cf">return</span> <span class="kw">new</span> <span class="fu">Config</span><span class="op">()</span></span>
+<span id="cb111-12"><a href="#cb111-12" aria-hidden="true" tabindex="-1"></a>            <span class="op">.</span><span class="fu">setInstanceName</span><span class="op">(</span><span class="st">&quot;hazle-instance&quot;</span><span class="op">)</span> <span class="co">// instance name for caching</span></span>
+<span id="cb111-13"><a href="#cb111-13" aria-hidden="true" tabindex="-1"></a>            <span class="op">.</span><span class="fu">addMapConfig</span><span class="op">(</span><span class="kw">new</span> <span class="fu">MapConfig</span><span class="op">()</span> <span class="co">// Adding one cache, we can configure as many cache as we want</span></span>
+<span id="cb111-14"><a href="#cb111-14" aria-hidden="true" tabindex="-1"></a>                      <span class="op">.</span><span class="fu">setName</span><span class="op">(</span><span class="st">&quot;todo-cache&quot;</span><span class="op">)</span> <span class="co">// cache will be saved with this name</span></span>
+<span id="cb111-15"><a href="#cb111-15" aria-hidden="true" tabindex="-1"></a>                      <span class="op">.</span><span class="fu">setTimeToLiveSeconds</span><span class="op">(</span><span class="dv">3000</span><span class="op">));</span> <span class="co">// cache will be evicted after 5 minutes</span></span>
+<span id="cb111-16"><a href="#cb111-16" aria-hidden="true" tabindex="-1"></a> <span class="op">}</span></span>
+<span id="cb111-17"><a href="#cb111-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em>Todo.java</em></strong> - Serializing model class
+also.</p>
+<div class="sourceCode" id="cb112"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">Serializable</span><span class="op">;</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Todo <span class="kw">implements</span> <span class="bu">Serializable</span> <span class="op">{</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a> <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">long</span> serialVersionUID <span class="op">=</span> <span class="dv">1L</span><span class="op">;</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a> <span class="kw">...</span></span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div></li>
+<li><p>Enable and user caching - <code>@EnableCaching</code>,
+<code>@Cacheable("cache-name")</code> and
+<code>@Transactional(readOnly = true)</code> in Controller method.</p>
+<p><strong><em>TodoFullStackApplication.java</em></strong> - Enabling
+cashing in <code>main()</code> method.</p>
+<div class="sourceCode" id="cb113"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">springframework</span><span class="op">.</span><span class="im">cache</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">EnableCaching</span><span class="op">;</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="at">@EnableCaching</span></span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TodoFullStackApplication <span class="op">{</span></span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a> <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>     SpringApplication<span class="op">.</span><span class="fu">run</span><span class="op">(</span>TodoFullStackApplication<span class="op">.</span><span class="fu">class</span><span class="op">,</span> args<span class="op">);</span></span>
+<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a> <span class="op">}</span></span>
+<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong><em>TodoController.java</em></strong> - Adding Cacheable and
+Transactional</p>
+<div class="sourceCode" id="cb114"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">springframework</span><span class="op">.</span><span class="im">cache</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">Cacheable</span><span class="op">;</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GetMapping</span><span class="op">(</span><span class="st">&quot;/users/{username}/todos/{id}&quot;</span><span class="op">)</span></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Transactional</span><span class="op">(</span>readOnly <span class="op">=</span> <span class="kw">true</span><span class="op">)</span> <span class="co">// True for select, for update/insert, false for default</span></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Cacheable</span><span class="op">(</span><span class="st">&quot;todo-cache&quot;</span><span class="op">)</span></span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Optional<span class="op">&lt;</span>Todo<span class="op">&gt;</span> <span class="fu">getTodo</span><span class="op">(</span><span class="at">@PathVariable</span> <span class="bu">String</span> username<span class="op">,</span> <span class="at">@PathVariable</span> <span class="dt">long</span> id<span class="op">)</span> <span class="op">{</span><span class="kw">...</span> <span class="op">}</span></span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span></code></pre></div></li>
+<li><p>Evict cache method - by what time the cache should
+deleted.</p></li>
+</ol>
+<ul>
+<li>LRU(least recently used)</li>
+<li>LFU(least frequently used)</li>
+<li>NONE - application will crash after cache full</li>
+<li>RANDOM</li>
+</ul>
+<p>​ <strong><em>TodoController.java</em></strong></p>
+<div class="sourceCode" id="cb115"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">springframework</span><span class="op">.</span><span class="im">cache</span><span class="op">.</span><span class="im">annotation</span><span class="op">.</span><span class="im">CacheEvict</span><span class="op">;</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@DeleteMapping</span><span class="op">(</span><span class="st">&quot;/users/{username}/todos/{id}&quot;</span><span class="op">)</span></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@CacheEvict</span><span class="op">(</span><span class="st">&quot;todo-cache&quot;</span><span class="op">)</span></span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> ResponseEntity<span class="op">&lt;</span><span class="bu">Void</span><span class="op">&gt;</span> <span class="fu">deleteTodo</span><span class="op">(</span><span class="at">@PathVariable</span> <span class="bu">String</span> username<span class="op">,</span> <span class="at">@PathVariable</span> <span class="dt">long</span> id<span class="op">)</span> <span class="op">{</span><span class="kw">...</span><span class="op">}</span></span>
+<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a><span class="kw">...</span></span></code></pre></div>
         </div>
       </div>
     </div>

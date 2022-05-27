@@ -2,7 +2,7 @@
 
 # Todo Full Stack with Angular and Spring Boot
 
-Course Link : https://tcsglobal.udemy.com/course/full-stack-application-development-with-spring-boot-and-angular/learn
+[Live Link](https://todo-fullstack-swarna.herokuapp.com/) :  https://todo-fullstack-swarna.herokuapp.com/
 
 Repository Link : https://github.com/in28minutes/full-stack-with-angular-and-spring-boot
 
@@ -2079,13 +2079,11 @@ To connect database with our fullstack application , we need to configure `appli
 ***application.properties***
 
 ```properties
-#logging.level.org.springframework=debug
-logging.level.org.springframework = info
-
 # Spring Security Properties
 spring.security.user.name=user
 spring.security.user.password=dummy
 crossorigins.origin.url=http://localhost:4200
+# crossorigins.origin.url=https://todo-fullstack-swarna.herokuapp.com
 
 # JWT properties
 jwt.signing.key.secret=mySecret
@@ -2108,10 +2106,19 @@ spring.sql.init.mode=always
 #spring.datasource.url=jdbc:postgresql://host:port/database
 spring.datasource.url=jdbc:postgresql://free-tier12.aws-ap-south-1.cockroachlabs.cloud:26257/swarna-db-200.defaultdb
 spring.datasource.username=swarnadeep
-spring.datasource.password=XXXXXXXXXX
+spring.datasource.password=uLYrds69nT_WNO5vEQn9rQ
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
 #spring.jooq.sql-dialect=postgres
+
+
+############### Logging ###############
+# logging.file.name=logs/application.log
+logging.level.root=INFO
+# Log Level for springframework (info, error, debug etc)
+#logging.level.org.springframework = error
+# Log Level for Specific Controller
+#logging.level.com.swarna.todoFullStack.todo = error
 ```
 
 
@@ -2464,4 +2471,10 @@ import org.springframework.cache.annotation.CacheEvict;
     public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id) {...}
 ...
 ```
+
+
+
+
+
+
 
