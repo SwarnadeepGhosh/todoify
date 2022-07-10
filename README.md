@@ -1,6 +1,6 @@
 # Todo Full Stack with Angular and Spring Boot
 
-### [Live Link](https://todo-fullstack-swarna.herokuapp.com/) - Deployed in Heroku (login using below credentials)
+### [Live Link](https://todo-sg.vercel.app/) - Deployed in Heroku (login using below credentials)
 
 ```properties
 user.name=user

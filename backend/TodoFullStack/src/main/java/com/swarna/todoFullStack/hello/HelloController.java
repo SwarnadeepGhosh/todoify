@@ -1,12 +1,12 @@
 package com.swarna.todoFullStack.hello;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
+// import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@CrossOrigin(origins = "${crossorigins.origin.url}") // Allowing localhost:4200 so that backend can be called by frontend server
+// @CrossOrigin(origins = "${crossorigins.origin.url}") // Allowing localhost:4200 so that backend can be called by frontend server
 @RestController
 public class HelloController {
 

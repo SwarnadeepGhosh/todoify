@@ -15,6 +15,13 @@ Password : <input type="password" name="password" [(ngModel)] = "password">
     <!-- <button type="submit" class="btn btn-primary" (click)="handleLogin()">Login</button> -->
     <!-- <button type="submit" class="btn btn-primary" (click)="handleBasicAuthLogin()">Login</button> -->
     <button type="submit" class="btn btn-primary" (click)="handleJWTAuthLogin()">Login</button>
+    
+    <div class="alert alert-primary my-2" role="alert">
+      Please Login using user.name= <b>user</b> and user.password= <b>dummy </b> 
+      <i>(Used as hardcoded Authentication for Spring Security)</i> 
+    </div>
 
-    <i *ngIf="invalidLogin" class="text-danger m-4">Login Unsuccessful</i>
+    <div  *ngIf="invalidLogin" class="alert alert-danger  my-2" role="alert"> Login Unsuccessful </div>
+
+    <!-- <i *ngIf="invalidLogin" class="text-danger m-4">Login Unsuccessful</i> -->
 </form>

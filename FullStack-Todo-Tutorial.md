@@ -8,6 +8,43 @@ Repository Link : https://github.com/in28minutes/full-stack-with-angular-and-spr
 
 
 
+## Table of contents
+
+- [Frontend](#frontend)
+  - [Introduction](#introduction)
+  - [Todo List Design](#todo-list-design)
+    - [List-Todos Component](#list-todos-component)
+  - [Header-Footer-Error Component](#header-footer-error-component)
+  - [Frontend Authentication](#frontend-authentication)
+  - [RouteGuard Service](#routeguard-service)
+- [Backend](#backend)
+    - [Basic Backend Setup](#basic-backend-setup)
+  - [Connnecting Backend to Frontend](#connnecting-backend-to-frontend)
+  - [CRUD Operation](#crud-operation)
+  - [READ](#read)
+  - [DELETE](#delete)
+  - [UPDATE](#update)
+  - [CREATE](#create)
+- [Authentication with JWT](#authentication-with-jwt)
+  - [HardCoded Authentication](#hardcoded-authentication)
+    - [Backend Hardcoded Auth](#backend-hardcoded-auth)
+    - [Frontend Hardcoded Auth](#frontend-hardcoded-auth)
+  - [Authentication using Backend Creds](#authentication-using-backend-creds)
+    - [Steps](#steps)
+  - [Spring Security with JWT](#spring-security-with-jwt)
+    - [Frontend JWT Changes](#frontend-jwt-changes)
+    - [Backend JWT Changes](#backend-jwt-changes)
+  - [Endpoints](#endpoints)
+- [Using Database](#using-database)
+- [Deploying FullStack in Heroku](#deploying-fullstack-in-heroku)
+  - [Deploying Backend](#deploying-backend)
+  - [Deploying Frontend with Environment](#deploying-frontend-with-environment)
+- [Logging by SLF4j](#logging-by-slf4j)
+    - [Rolling Log](#rolling-log)
+- [Caching by Hazlecast](#caching-by-hazlecast)
+    
+    
+
 
 
 ## Frontend 
