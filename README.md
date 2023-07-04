@@ -1,12 +1,25 @@
 # Todoify Full Stack with Angular and Spring Boot
 
-### [Live Link](https://todoify.vercel.app/) - Deployed in Heroku (login using below credentials)
+![Todoify](https://cdni.iconscout.com/illustration/free/thumb/free-concept-of-to-do-list-2112526-1785604.png)
+
+
+### [Live Link](https://todoify.vercel.app) - (login using below credentials)
 
 ```properties
 user.name=user
 user.password=dummy
 ```
 
+### [Backend URL](https://todoify-backend.azurewebsites.net) - Deployed in Azure (Authenticate using below command to get JWT token)
+```sh
+curl --location --request POST 'https://todoify-backend.azurewebsites.net/authenticate' \
+--header 'Origin: https://todoify.vercel.app' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "user",
+    "password": "dummy"
+}'
+```
 
 
 ## Introduction
@@ -38,5 +51,18 @@ Here I designed an Angular + Spring Boot Fullstack application with JWT authenti
 | Update a todo  | PUT            | /users/{username}/todos/{todo_id} | 200 OK with updated Todo                                     |
 | Delete a todo  | DELETE         | /users/{username}/todos/{todo_id} | 204 NO CONTENT => for Successful Deletion, 404 NOT FOUND => for Todo Not Found |
 
+
+### Docker commands
+
+```sh
+# Build
+docker build -t swarnadeepghosh/todoify-fullstack:0.0.1-RELEASE .
+ 
+# Run in local
+docker run -d -p 8080:8080 --name=todoify-fullstack swarnadeepghosh/todoify-fullstack:0.0.1-RELEASE
+
+# push to dockerhub
+docker push swarnadeepghosh/todoify-fullstack:0.0.1-RELEASE
+```
 
 

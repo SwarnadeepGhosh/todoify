@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.swarna</groupId>
-	<artifactId>TodoFullStack</artifactId>
+	<artifactId>todoify-fullstack</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TodoFullStack</name>
-	<description>Full Stack project for TODO with ANgular, Spring Boot and Spring Security</description>
+	<name>todoify-fullstack</name>
+	<description>Full Stack project for TODO with Angular, Spring Boot and Spring Security</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
